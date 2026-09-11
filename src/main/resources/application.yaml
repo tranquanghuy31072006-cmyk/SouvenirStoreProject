@@ -3,7 +3,7 @@ spring:
     name: MyWebsiteProject
 
   datasource:
-    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3307/grocery-store}
+    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3307/souvenir-store}
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DBMS_USERNAME:root}
     password: ${DBMS_PASSWORD:123456}
@@ -16,4 +16,4 @@ spring:
 server:
   port: 8080
   servlet:
-    context-path: /grocery-store
+    context-path: /souvenir-store

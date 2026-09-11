@@ -1,4 +1,4 @@
-package com.learning.mywebsiteproject.entity.enums;
+package com.learning.mywebsiteproject.enumStatus;
 
 public enum CategoryStatus {
     ACTIVE,

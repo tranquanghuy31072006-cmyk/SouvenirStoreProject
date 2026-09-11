@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.learning</groupId>
-    <artifactId>MyWebsiteProject</artifactId>
+    <artifactId>SouvenirStoreProject</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>MyWebsiteProject</name>
-    <description>MyWebsiteProject</description>
+    <name>SouvenirStoreProject</name>
+    <description>SouvenirStoreProject</description>
 
     <properties>
         <java.version>21</java.version>
