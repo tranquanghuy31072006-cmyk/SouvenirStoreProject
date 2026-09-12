@@ -4,7 +4,6 @@ import com.learning.souvenirstoreproject.dto.request.UserCreationRequest;
 import com.learning.souvenirstoreproject.dto.request.UserUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.UserResponse;
-import com.learning.souvenirstoreproject.entity.User;
 import com.learning.souvenirstoreproject.mapper.UserMapper;
 import com.learning.souvenirstoreproject.repository.UserRepository;
 import com.learning.souvenirstoreproject.service.UserService;
