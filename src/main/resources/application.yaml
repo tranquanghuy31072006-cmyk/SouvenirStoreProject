@@ -1,6 +1,6 @@
 spring:
   application:
-    name: MyWebsiteProject
+    name: SouvenirStoreProject
 
   datasource:
     url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3307/souvenir-store}
@@ -16,4 +16,4 @@ spring:
 server:
   port: 8080
   servlet:
-    context-path: /souvenir-store
+    context-path: /souvenir
