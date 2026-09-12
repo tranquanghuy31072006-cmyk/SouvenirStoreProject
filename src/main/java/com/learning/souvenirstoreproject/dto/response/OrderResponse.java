@@ -3,7 +3,9 @@ package com.learning.souvenirstoreproject.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,11 +13,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    String username;
-    String fullName;
-    String email;
-    String phone;
-    String status;
+public class OrderResponse {
+    Long id;
+    String orderCode;
+    String receiverName;
+    String receiverPhone;
+    String receiverAddress;
+    String note;
+    BigDecimal totalAmount;
     LocalDateTime createdAt;
+    List<OrderItemResponse> items;
 }

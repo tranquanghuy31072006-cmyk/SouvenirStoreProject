@@ -3,7 +3,7 @@ package com.learning.souvenirstoreproject.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,11 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    String username;
-    String fullName;
-    String email;
-    String phone;
-    String status;
-    LocalDateTime createdAt;
+public class CartResponse {
+    Long cartItemId;
+    Long itemTotal;
+    Long itemAmount;
+    List<CartItemResponse> items;
 }

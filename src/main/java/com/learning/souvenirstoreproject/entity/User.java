@@ -37,9 +37,11 @@ public class User {
 
     String avatar;
 
-    String role; // ADMIN, STAFF, CUSTOMER
+    @ManyToOne
+    @JoinColumn(name = "role_name",nullable = false)
+    Role role;
 
-    String status; // ACTIVE, BLOCKED
+    String status;
 
     @Column(name = "created_at")
     LocalDateTime createdAt;

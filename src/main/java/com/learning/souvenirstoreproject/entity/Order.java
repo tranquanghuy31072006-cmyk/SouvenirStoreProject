@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -62,5 +63,5 @@ public class Order {
     String note;
 
     @Column(name = "created_at")
-    LocalDate createdAt;
+    LocalDateTime createdAt;
 }
