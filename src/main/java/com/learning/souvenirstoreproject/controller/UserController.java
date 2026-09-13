@@ -27,6 +27,7 @@ public class UserController {
     @PostMapping("/register")
     ApiResponse<UserResponse> createUser(@RequestBody UserCreationRequest userCreationRequest) {
         return ApiResponse.<UserResponse>builder()
+                .message("User Created")
                 .result(userService.createUser(userCreationRequest))
                 .build();
     }
@@ -35,6 +36,7 @@ public class UserController {
     @GetMapping("/{userId}")
     ApiResponse<UserResponse> getUserById(@PathVariable Long userId) {
         return ApiResponse.<UserResponse>builder()
+                .message("User ID")
                 .result(userService.getUserById(userId))
                 .build();
     }
@@ -43,6 +45,7 @@ public class UserController {
     @PutMapping("/{userId}")
     ApiResponse<UserResponse> updateUser(@PathVariable Long userId, @RequestBody UserUpdateRequest userUpdateRequest) {
         return ApiResponse.<UserResponse>builder()
+                .message("User updated")
                 .result(userService.updateUser(userId, userUpdateRequest))
                 .build();
     }
@@ -51,6 +54,7 @@ public class UserController {
     @GetMapping
     ApiResponse<List<UserResponse>> getAllUsers(){
         return ApiResponse.<List<UserResponse>>builder()
+                .message("User List")
                 .result(userService.getAllUsers())
                 .build();
     }

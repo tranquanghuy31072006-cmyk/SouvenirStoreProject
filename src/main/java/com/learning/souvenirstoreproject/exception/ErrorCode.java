@@ -24,6 +24,7 @@ public enum ErrorCode {
     ACCESS_DENIED(1012, "Access denied"),
     UNCATEGORIZED(9999,"Uncategorized"),
     USER_EXISTED(1013,"User existed"),
+    CATEGORY_EXISTED(1014,"category existed"),
     ;
 
     int code;

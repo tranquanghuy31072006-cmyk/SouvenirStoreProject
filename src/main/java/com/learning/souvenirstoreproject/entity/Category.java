@@ -27,5 +27,7 @@ public class Category {
     @JoinColumn(name = "parent_id")
     Category parentCategory;
 
-    String status;   // ACTIVE, INACTIVE
+    String status; // ACTIVE, INACTIVE
+
+    String description;
 }

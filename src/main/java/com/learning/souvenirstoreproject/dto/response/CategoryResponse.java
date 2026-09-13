@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CategoryResponse {
-    Integer id;
     String name;
     String description;
     String slug;
