@@ -1,11 +1,12 @@
 package com.learning.souvenirstoreproject.entity;
 
+import com.learning.souvenirstoreproject.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "payments")
@@ -25,8 +26,9 @@ public class Payment {
     @JoinColumn(name = "order_id")
     Order order;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", length = 50)
-    String paymentMethod;
+    PaymentMethod paymentMethod;
 
     @Column(name = "transaction_code", length = 255)
     String transactionCode;
@@ -37,5 +39,5 @@ public class Payment {
     String status;
 
     @Column(name = "paid_at")
-    LocalDate paidAt;
+    LocalDateTime paidAt;
 }

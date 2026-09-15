@@ -1,11 +1,12 @@
 package com.learning.souvenirstoreproject.entity;
 
+import com.learning.souvenirstoreproject.enums.OrderStatus;
+import com.learning.souvenirstoreproject.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -50,14 +51,16 @@ public class Order {
     @Column(name = "final_amount", precision = 15, scale = 2)
     BigDecimal finalAmount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", length = 50)
-    String paymentMethod;
+    PaymentMethod paymentMethod;
 
     @Column(name = "payment_status", length = 50)
-    String paymentStatus; // PENDING, CONFIRMED, SHIPPING, COMPLETED, CANCELLED
+    String paymentStatus;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "order_status", length = 50)
-    String orderStatus;
+    OrderStatus orderStatus;
 
     @Column(columnDefinition = "TEXT")
     String note;

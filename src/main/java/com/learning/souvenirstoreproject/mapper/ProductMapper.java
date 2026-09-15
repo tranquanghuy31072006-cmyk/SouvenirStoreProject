@@ -8,6 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     @Mapping(target = "categoryName",source = "category.name")
-    @Mapping(target = "categorySlug", source = "category.slug")
+    //@Mapping(target = "categorySlug", source = "category.slug")
     ProductResponse toProductResponse(Product product);
 }

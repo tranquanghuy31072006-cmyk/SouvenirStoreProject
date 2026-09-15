@@ -1,5 +1,6 @@
 package com.learning.souvenirstoreproject.entity;
 
+import com.learning.souvenirstoreproject.enums.BrandStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,5 +23,7 @@ public class Brand {
     String name;
 
     String logo;
-    String status;   // ACTIVE, INACTIVE
+
+    @Enumerated(EnumType.STRING)
+    BrandStatus status; // ACTIVE, INACTIVE
 }

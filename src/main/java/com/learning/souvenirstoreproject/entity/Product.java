@@ -1,5 +1,7 @@
 package com.learning.souvenirstoreproject.entity;
 
+import com.learning.souvenirstoreproject.enums.CategoryStatus;
+import com.learning.souvenirstoreproject.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -28,10 +30,8 @@ public class Product {
     @JoinColumn(name = "brand_id")
     Brand brand;
 
+    @Column(unique = true, nullable = false)
     String name;
-
-    @Column(unique = true,nullable = false)
-    String slug;
 
     String thumbnail;
 
@@ -41,6 +41,7 @@ public class Product {
     @Column(name = "sale_price", precision = 15, scale = 2)
     BigDecimal salePrice;
 
-    String status;
+    @Enumerated(EnumType.STRING)
+    ProductStatus status;
 }
 

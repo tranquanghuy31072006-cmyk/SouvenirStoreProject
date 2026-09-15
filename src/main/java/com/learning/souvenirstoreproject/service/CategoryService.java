@@ -4,6 +4,7 @@ import com.learning.souvenirstoreproject.dto.request.CategoryCreationRequest;
 import com.learning.souvenirstoreproject.dto.request.CategoryUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.CategoryResponse;
 import com.learning.souvenirstoreproject.entity.Category;
+import com.learning.souvenirstoreproject.enums.CategoryStatus;
 import com.learning.souvenirstoreproject.exception.AppException;
 import com.learning.souvenirstoreproject.exception.ErrorCode;
 import com.learning.souvenirstoreproject.mapper.CategoryMapper;
@@ -24,16 +25,21 @@ public class CategoryService {
     CategoryMapper categoryMapper;
 
     //createCategory
-    public CategoryResponse createCategory(CategoryCreationRequest categoryCreationRequest) {
-        Category category = categoryMapper.toCategory(categoryCreationRequest);
+    public CategoryResponse createCategory(CategoryCreationRequest request) {
 
-        category.setStatus("ACTIVE");
+        if (categoryRepository.existsByName(request.getName())) {
+            throw new AppException(ErrorCode.CATEGORY_EXISTED);
+        }
+
+        Category category = categoryMapper.toCategory(request);
+        category.setStatus(CategoryStatus.ACTIVE);
 
         try {
             category = categoryRepository.save(category);
         } catch (DataIntegrityViolationException e) {
             throw new AppException(ErrorCode.CATEGORY_EXISTED);
         }
+
         return categoryMapper.toCategoryResponse(category);
     }
 

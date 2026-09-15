@@ -5,6 +5,7 @@ import com.learning.souvenirstoreproject.dto.request.UserUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.UserResponse;
 import com.learning.souvenirstoreproject.entity.Role;
 import com.learning.souvenirstoreproject.entity.User;
+import com.learning.souvenirstoreproject.enums.UserStatus;
 import com.learning.souvenirstoreproject.exception.AppException;
 import com.learning.souvenirstoreproject.exception.ErrorCode;
 import com.learning.souvenirstoreproject.mapper.UserMapper;
@@ -37,7 +38,7 @@ public class UserService {
         User user = userMapper.toUser(userCreationRequest);
         Role role = roleRepository.findById("CUSTOMER").orElseThrow(() -> new RuntimeException("Role not found"));
         user.setRole(role);
-        user.setStatus("ACTIVE");
+        user.setStatus(UserStatus.ACTIVE);
         user.setCreatedAt(LocalDateTime.now());
         try {
             user = userRepository.save(user);

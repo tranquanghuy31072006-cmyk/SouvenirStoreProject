@@ -1,5 +1,6 @@
 package com.learning.souvenirstoreproject.entity;
 
+import com.learning.souvenirstoreproject.enums.CategoryStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,16 +19,15 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(unique = true, nullable = false)
     String name;
-
-    @Column(unique = true)
-    String slug;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
     Category parentCategory;
 
-    String status; // ACTIVE, INACTIVE
+    @Enumerated(EnumType.STRING)
+    CategoryStatus status;// ACTIVE, INACTIVE
 
     String description;
 }

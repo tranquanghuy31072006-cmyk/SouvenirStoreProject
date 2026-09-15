@@ -1,9 +1,11 @@
 package com.learning.souvenirstoreproject.entity;
 
+import com.learning.souvenirstoreproject.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,6 +25,8 @@ public class User {
     @Column(length = 100, unique = true, nullable = false)
     String username;
 
+    LocalDate dateOfBirth;
+
     @Column(nullable = false)
     String password;
 
@@ -41,7 +45,8 @@ public class User {
     @JoinColumn(name = "role_name",nullable = false)
     Role role;
 
-    String status;
+    @Enumerated(EnumType.STRING)
+    UserStatus status;
 
     @Column(name = "created_at")
     LocalDateTime createdAt;
