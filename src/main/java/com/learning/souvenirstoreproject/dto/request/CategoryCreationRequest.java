@@ -1,5 +1,6 @@
 package com.learning.souvenirstoreproject.dto.request;
 
+import com.learning.souvenirstoreproject.enums.CategoryStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,7 +18,4 @@ public class CategoryCreationRequest {
 
     @Size(max = 500)
     private String description;
-
-    @NotNull
-    private String status;
 }

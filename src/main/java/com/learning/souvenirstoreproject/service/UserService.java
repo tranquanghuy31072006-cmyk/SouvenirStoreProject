@@ -1,11 +1,11 @@
 package com.learning.souvenirstoreproject.service;
 
+import com.learning.souvenirstoreproject.dto.request.UserPasswordUpdateRequest;
 import com.learning.souvenirstoreproject.dto.request.UserCreationRequest;
 import com.learning.souvenirstoreproject.dto.request.UserUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.UserResponse;
 import com.learning.souvenirstoreproject.entity.Role;
 import com.learning.souvenirstoreproject.entity.User;
-import com.learning.souvenirstoreproject.enums.UserStatus;
 import com.learning.souvenirstoreproject.exception.AppException;
 import com.learning.souvenirstoreproject.exception.ErrorCode;
 import com.learning.souvenirstoreproject.mapper.UserMapper;
@@ -36,9 +36,8 @@ public class UserService {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
         User user = userMapper.toUser(userCreationRequest);
-        Role role = roleRepository.findById("CUSTOMER").orElseThrow(() -> new RuntimeException("Role not found"));
+        Role role = roleRepository.findById("CUSTOMER").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
         user.setRole(role);
-        user.setStatus(UserStatus.ACTIVE);
         user.setCreatedAt(LocalDateTime.now());
         try {
             user = userRepository.save(user);
@@ -51,7 +50,8 @@ public class UserService {
 
     //getUserById
     public UserResponse getUserById(Long id) {
-        return userMapper.toUserResponse(userRepository.findUsersById(id));
+        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        return userMapper.toUserResponse(user);
     }
 
     //updateUserById
@@ -60,7 +60,7 @@ public class UserService {
 
         userMapper.updateUser(user, userUpdateRequest);
 
-        return userMapper.toUserResponse(user);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     //getAllUsers
@@ -75,4 +75,17 @@ public class UserService {
     }
 
     //getMyInfo
+
+
+    //changePassword
+    public void changePassword(Long id, UserPasswordUpdateRequest userPasswordUpdateRequest) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.getPassword().equals(userPasswordUpdateRequest.getOldPassword())) {
+            throw new AppException(ErrorCode.PASSWORD_INCORRECT);
+        }
+
+        user.setPassword(userPasswordUpdateRequest.getNewPassword());
+        userRepository.save(user);
+    }
 }

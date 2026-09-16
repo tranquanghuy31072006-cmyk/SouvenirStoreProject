@@ -46,7 +46,8 @@ public class User {
     Role role;
 
     @Enumerated(EnumType.STRING)
-    UserStatus status;
+    @Builder.Default
+    UserStatus status = UserStatus.ACTIVE;
 
     @Column(name = "created_at")
     LocalDateTime createdAt;

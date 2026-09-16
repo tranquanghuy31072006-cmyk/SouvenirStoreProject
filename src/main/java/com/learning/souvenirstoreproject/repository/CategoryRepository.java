@@ -1,6 +1,7 @@
 package com.learning.souvenirstoreproject.repository;
 
 import com.learning.souvenirstoreproject.entity.Category;
+import com.learning.souvenirstoreproject.enums.CategoryStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Long> {
-    List<Category> findAllByStatus(String status);
+    List<Category> findAllByStatus(CategoryStatus status);
 
     boolean existsByName(@NotBlank @Size(max = 100) String name);
 }

@@ -27,7 +27,8 @@ public class Category {
     Category parentCategory;
 
     @Enumerated(EnumType.STRING)
-    CategoryStatus status;// ACTIVE, INACTIVE
+    @Builder.Default
+    CategoryStatus status = CategoryStatus.ACTIVE;
 
     String description;
 }

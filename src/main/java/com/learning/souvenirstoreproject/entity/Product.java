@@ -1,6 +1,5 @@
 package com.learning.souvenirstoreproject.entity;
 
-import com.learning.souvenirstoreproject.enums.CategoryStatus;
 import com.learning.souvenirstoreproject.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,6 +41,9 @@ public class Product {
     BigDecimal salePrice;
 
     @Enumerated(EnumType.STRING)
-    ProductStatus status;
-}
+    @Builder.Default
+    ProductStatus status = ProductStatus.ACTIVE;
 
+    @Column(columnDefinition = "TEXT")
+    String description;
+}

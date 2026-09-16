@@ -27,16 +27,14 @@ public class CategoryController {
     @PostMapping("/create-category")
     ApiResponse<CategoryResponse> createCategory(@RequestBody CategoryCreationRequest categoryCreationRequest) {
         return ApiResponse.<CategoryResponse>builder()
-                .message("Successfully created category")
                 .result(categoryService.createCategory(categoryCreationRequest))
                 .build();
     }
 
     //getCategoryById
-    @GetMapping("get-category/{categoryId}")
+    @GetMapping("/get-category/{categoryId}")
     ApiResponse<CategoryResponse> getCategoryById(@PathVariable Long categoryId) {
         return ApiResponse.<CategoryResponse>builder()
-                .message("Category with id " + categoryId + " has been founded")
                 .result(categoryService.getCategoryById(categoryId))
                 .build();
     }
@@ -45,16 +43,14 @@ public class CategoryController {
     @GetMapping("/get-active-category")
     ApiResponse<List<CategoryResponse>> getActiveCategory() {
         return ApiResponse.<List<CategoryResponse>>builder()
-                .message("Active category has been founded")
                 .result(categoryService.getAllActiveCategory())
                 .build();
     }
 
     //updateCategory
-    @PutMapping("update-category/{categoryId}")
+    @PutMapping("/update-category/{categoryId}")
     ApiResponse<CategoryResponse> updateCategory(@PathVariable Long categoryId,@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
         return ApiResponse.<CategoryResponse>builder()
-                .message("Category with id " + categoryId + " has been updated")
                 .result(categoryService.updateCategory(categoryId, categoryUpdateRequest))
                 .build();
     }

@@ -32,7 +32,6 @@ public class CategoryService {
         }
 
         Category category = categoryMapper.toCategory(request);
-        category.setStatus(CategoryStatus.ACTIVE);
 
         try {
             category = categoryRepository.save(category);
@@ -52,7 +51,7 @@ public class CategoryService {
 
     //getAllActiveCategory
     public List<CategoryResponse> getAllActiveCategory() {
-        return categoryRepository.findAllByStatus("ACTIVE").stream()
+        return categoryRepository.findAllByStatus(CategoryStatus.ACTIVE).stream()
                 .map(categoryMapper::toCategoryResponse).toList();
     }
 

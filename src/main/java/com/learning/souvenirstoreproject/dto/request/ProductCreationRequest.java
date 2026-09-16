@@ -1,5 +1,6 @@
 package com.learning.souvenirstoreproject.dto.request;
 
+import com.learning.souvenirstoreproject.enums.ProductStatus;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -10,20 +11,22 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductRequest {
+public class ProductCreationRequest {
     @NotBlank
     @Size(max = 150)
     private String name;
+
+    private String description;
 
     @Positive
     @NotNull
     private BigDecimal price;
 
-    private String status;
-
     @Min(0)
     private Integer stockQuantity;
 
-    @NonNull
+    @NotNull
     private Long categoryId;
+
+    private String imageUrl;
 }

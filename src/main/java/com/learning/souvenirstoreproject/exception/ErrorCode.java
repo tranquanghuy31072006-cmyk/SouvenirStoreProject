@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum ErrorCode {
     EMAIL_EXISTED(1000, "Email not exists"),
     USER_NOT_FOUND(1001, "User not found"),
@@ -22,9 +22,12 @@ public enum ErrorCode {
     VALIDATION_FAILED(1010, "Validation fail"),
     UNAUTHENTICATED(1011, "UNAUTHENTICATED"),
     ACCESS_DENIED(1012, "Access denied"),
-    UNCATEGORIZED(9999,"Uncategorized"),
-    USER_EXISTED(1013,"User existed"),
-    CATEGORY_EXISTED(1014,"category existed"),
+    UNCATEGORIZED(9999, "Uncategorized"),
+    USER_EXISTED(1013, "User existed"),
+    CATEGORY_EXISTED(1014, "category existed"),
+    PRODUCT_EXISTED(1015, "product existed"),
+    PASSWORD_INCORRECT(1016, "Password incorrect"),
+    ROLE_NOT_FOUND(1017, "Role not found"),
     ;
 
     int code;

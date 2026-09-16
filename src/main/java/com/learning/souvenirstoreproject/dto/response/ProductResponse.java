@@ -1,26 +1,38 @@
 package com.learning.souvenirstoreproject.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductResponse {
-    private Long id;
-    private String name;
-    private String slug;
-    private String description;
-    private BigDecimal price;
-    private Integer stockQuantity;
-    private String status;
-    private String categoryName;
-    private String categorySlug;
-    private List<ProductImageResponse> images;
+
+    Long id;
+
+    String name;
+
+    String description;
+
+    BigDecimal price;
+
+    Integer stockQuantity;
+
+    String imageUrl;
+
+    String status;
+
+    Long categoryId;
+
+    String categoryName;
+
+    LocalDateTime createdAt;
+
+    LocalDateTime updatedAt;
 }
