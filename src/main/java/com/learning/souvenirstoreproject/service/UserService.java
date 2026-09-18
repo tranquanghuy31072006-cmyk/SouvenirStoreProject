@@ -6,6 +6,7 @@ import com.learning.souvenirstoreproject.dto.request.UserUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.UserResponse;
 import com.learning.souvenirstoreproject.entity.Role;
 import com.learning.souvenirstoreproject.entity.User;
+import com.learning.souvenirstoreproject.enums.UserStatus;
 import com.learning.souvenirstoreproject.exception.AppException;
 import com.learning.souvenirstoreproject.exception.ErrorCode;
 import com.learning.souvenirstoreproject.mapper.UserMapper;
@@ -87,5 +88,13 @@ public class UserService {
 
         user.setPassword(userPasswordUpdateRequest.getNewPassword());
         userRepository.save(user);
+    }
+
+    //deactivateUser
+    public UserResponse deactivateUserStatus(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        user.setStatus(UserStatus.BLOCKED);
+
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 }

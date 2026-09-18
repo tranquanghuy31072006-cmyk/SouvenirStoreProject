@@ -55,10 +55,19 @@ public class CategoryController {
                 .build();
     }
 
+    //deactivateCategoryStatus
+    @PutMapping("/deactivate-category-status/{categoryId}")
+    ApiResponse<CategoryResponse> deactivateCategoryStatus(@PathVariable Long categoryId) {
+        categoryService.deactivateCategory(categoryId);
+        return ApiResponse.<CategoryResponse>builder()
+                .result(categoryService.deactivateCategory(categoryId))
+                .build();
+    }
+
     //deleteCategory
-    @DeleteMapping("delete-category/{categoryId}")
+    @DeleteMapping("delete-category-status/{categoryId}")
     ApiResponse<String> deleteCategory(@PathVariable Long categoryId) {
-        categoryService.deleteCategory(categoryId);
+        categoryService.deleteCategoryStatus(categoryId);
         return ApiResponse.<String>builder()
                 .message("Category with id " + categoryId + " has been deleted successfully")
                 .build();

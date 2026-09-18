@@ -4,7 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,15 +24,13 @@ public class ProductResponse {
 
     Integer stockQuantity;
 
-    String imageUrl;
+    String thumbnail;
+
+    List<ProductImageResponse> imageUrls;
 
     String status;
 
     Long categoryId;
 
     String categoryName;
-
-    LocalDateTime createdAt;
-
-    LocalDateTime updatedAt;
 }

@@ -5,9 +5,12 @@ import com.learning.souvenirstoreproject.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -65,6 +68,11 @@ public class Order {
     @Column(columnDefinition = "TEXT")
     String note;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     LocalDateTime createdAt;
+
+    @Builder.Default
+    @OneToMany
+    List<OrderItem> orderItems = new ArrayList<>();
 }

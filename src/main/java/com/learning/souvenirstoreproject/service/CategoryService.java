@@ -9,6 +9,7 @@ import com.learning.souvenirstoreproject.exception.AppException;
 import com.learning.souvenirstoreproject.exception.ErrorCode;
 import com.learning.souvenirstoreproject.mapper.CategoryMapper;
 import com.learning.souvenirstoreproject.repository.CategoryRepository;
+import com.learning.souvenirstoreproject.repository.ProductRepository;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,6 +23,7 @@ import java.util.List;
 @Builder
 public class CategoryService {
     CategoryRepository categoryRepository;
+    ProductRepository productRepository;
     CategoryMapper categoryMapper;
 
     //createCategory
@@ -62,8 +64,22 @@ public class CategoryService {
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
+    //deactivateCategory
+    public CategoryResponse deactivateCategory(Long id){
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        category.setStatus(CategoryStatus.INACTIVE);
+
+        return categoryMapper.toCategoryResponse(categoryRepository.save(category));
+    }
+
     //deleteCategory
-    public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
+    public void deleteCategoryStatus(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        if (productRepository.existsByCategoryId(categoryId))
+            throw new AppException(ErrorCode.CATEGORY_HAS_PRODUCTS);
+
+        categoryRepository.delete(category);
     }
 }

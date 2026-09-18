@@ -1,10 +1,10 @@
 package com.learning.souvenirstoreproject.dto.request;
 
-import com.learning.souvenirstoreproject.enums.ProductStatus;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,19 +12,21 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class ProductUpdateRequest {
-    String name;
 
-    String description;
+    @NotBlank
+    @Size(max = 150)
+    private String name;
 
-    @Positive
+    private String description;
+
     @NotNull
+    @Positive
     private BigDecimal price;
-
-    @Min(0)
-    private Integer stockQuantity;
 
     @NotNull
     private Long categoryId;
 
-    String imageUrl;
+    private String thumbnail;
+
+    private List<ProductImageUpdateRequest> imageUrls;
 }

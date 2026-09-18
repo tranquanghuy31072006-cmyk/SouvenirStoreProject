@@ -7,12 +7,9 @@ import com.learning.souvenirstoreproject.entity.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
     CategoryResponse toCategoryResponse (Category category);
     Category toCategory(CategoryCreationRequest categoryCreationRequest);
-    List<CategoryResponse> toCategoryResponseList(List<Category> categories);
     void updateCategory(@MappingTarget Category category, CategoryUpdateRequest categoryUpdateRequest);
 }

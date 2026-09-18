@@ -3,8 +3,9 @@ package com.learning.souvenirstoreproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reviews")
@@ -33,6 +34,7 @@ public class Review {
     @Column(columnDefinition = "TEXT")
     String comment;
 
+    @CreationTimestamp
     @Column(name = "created_at")
-    LocalDate createdAt;
+    LocalDateTime createdAt;
 }

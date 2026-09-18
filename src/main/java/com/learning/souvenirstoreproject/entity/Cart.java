@@ -3,8 +3,11 @@ package com.learning.souvenirstoreproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "carts")
@@ -24,6 +27,11 @@ public class Cart {
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     User user;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     LocalDateTime createdAt;
+
+    @OneToMany
+    @Builder.Default
+    List<CartItem> cartItems = new ArrayList<>();
 }

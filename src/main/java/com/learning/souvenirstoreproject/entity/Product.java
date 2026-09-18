@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -46,4 +48,12 @@ public class Product {
 
     @Column(columnDefinition = "TEXT")
     String description;
+
+    @OneToMany
+    @Builder.Default
+    List<ProductImage> productImages = new ArrayList<>();
+
+    @OneToMany
+    @Builder.Default
+    List<ProductVariant>  productVariants = new ArrayList<>();
 }

@@ -1,6 +1,6 @@
 package com.learning.souvenirstoreproject.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.learning.souvenirstoreproject.enums.BrandStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,12 +10,13 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProductImageResponse {
-
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+public class BrandResponse {
     Long id;
 
-    String imageUrl;
+    String name;
 
-    Integer sortOrder;
+    String logo;
+
+    BrandStatus brandStatus;
 }

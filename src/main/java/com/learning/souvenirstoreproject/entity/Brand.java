@@ -22,8 +22,10 @@ public class Brand {
     @Column(unique = true)
     String name;
 
+    @Column(length = 500)
     String logo;
 
     @Enumerated(EnumType.STRING)
-    BrandStatus status; // ACTIVE, INACTIVE
+    @Builder.Default
+    BrandStatus status =  BrandStatus.ACTIVE;
 }

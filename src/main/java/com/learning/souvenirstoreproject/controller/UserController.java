@@ -61,12 +61,20 @@ public class UserController {
                 .build();
     }
 
-    //modifyPassword
+    //changePassword
     @PutMapping("/change-password/{userId}")
-    ApiResponse<String> modifyPassword(@PathVariable Long userId, @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest){
+    ApiResponse<String> changePassword(@PathVariable Long userId, @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest){
         userService.changePassword(userId, userPasswordUpdateRequest);
         return ApiResponse.<String>builder()
                 .message("Password Updated")
+                .build();
+    }
+
+    //deactivateUserStatus
+    @PutMapping("/deactivate-user-status/{userId}")
+    ApiResponse<UserResponse> deactivateUserStatus(@PathVariable Long userId){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.deactivateUserStatus(userId))
                 .build();
     }
 }

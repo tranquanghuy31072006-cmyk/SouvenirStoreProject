@@ -4,6 +4,7 @@ import com.learning.souvenirstoreproject.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,8 +26,6 @@ public class User {
     @Column(length = 100, unique = true, nullable = false)
     String username;
 
-    LocalDate dateOfBirth;
-
     @Column(nullable = false)
     String password;
 
@@ -39,6 +38,8 @@ public class User {
     @Column(name = "full_name")
     String fullName;
 
+    LocalDate dateOfBirth;
+
     String avatar;
 
     @ManyToOne
@@ -49,6 +50,7 @@ public class User {
     @Builder.Default
     UserStatus status = UserStatus.ACTIVE;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     LocalDateTime createdAt;
 }

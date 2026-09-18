@@ -28,6 +28,9 @@ public enum ErrorCode {
     PRODUCT_EXISTED(1015, "product existed"),
     PASSWORD_INCORRECT(1016, "Password incorrect"),
     ROLE_NOT_FOUND(1017, "Role not found"),
+    CATEGORY_HAS_PRODUCTS(1018, "Category has products"),
+    BRAND_EXISTED(1019, "Brand not found"),
+    BRAND_NOT_FOUND(1020, "Brand not found"),
     ;
 
     int code;

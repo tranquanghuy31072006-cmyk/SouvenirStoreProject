@@ -3,8 +3,6 @@ package com.learning.souvenirstoreproject.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,8 +17,4 @@ public class CategoryResponse {
     String name;
 
     String description;
-
-    LocalDateTime createdAt;
-
-    LocalDateTime updatedAt;
 }

@@ -53,6 +53,14 @@ public class ProductController {
                 .build();
     }
 
+    //deactivateProductStatus
+    @PutMapping("/deactivate-product-status/{productId}")
+    public ApiResponse<ProductResponse> deactivateProductStatus(@PathVariable Long productId){
+        return ApiResponse.<ProductResponse>builder()
+                .result(productService.deactivateProductStatus(productId))
+                .build();
+    }
+
     //delete
     @DeleteMapping("/delete-product/{productId}")
     public ApiResponse<String> deleteProduct(@PathVariable Long productId){

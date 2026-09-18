@@ -1,5 +1,6 @@
 package com.learning.souvenirstoreproject.entity;
 
+import com.learning.souvenirstoreproject.enums.ProductVariantStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -42,5 +43,7 @@ public class ProductVariant {
     @Column(length = 500)
     String image;
 
-    String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false,length = 20)
+    ProductVariantStatus status;
 }
