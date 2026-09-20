@@ -31,6 +31,9 @@ public enum ErrorCode {
     CATEGORY_HAS_PRODUCTS(1018, "Category has products"),
     BRAND_EXISTED(1019, "Brand not found"),
     BRAND_NOT_FOUND(1020, "Brand not found"),
+    USERNAME_EXISTED(1021, "Username existed"),
+    PHONE_EXISTED(1022, "Phone number existed"),
+    USER_BLOCKED(1023, "User blocked"),
     ;
 
     int code;
