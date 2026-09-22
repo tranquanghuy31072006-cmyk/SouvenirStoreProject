@@ -20,4 +20,4 @@ server:
 jwt:
   secret: ${JWT_SECRET:5VK3At87OigTmoHc2ysaJpzMEQhLSYPfj9NeF6B1UXdvGkRqwrnluCDbxWZ0I4}
   expiration: 3600
-  issuer: localhost
+  issuer: souvenir-store
