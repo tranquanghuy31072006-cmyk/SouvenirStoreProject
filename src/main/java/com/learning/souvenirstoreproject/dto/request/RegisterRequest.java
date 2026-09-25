@@ -2,6 +2,7 @@ package com.learning.souvenirstoreproject.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -27,5 +28,7 @@ public class RegisterRequest {
 
     private LocalDate dateOfBirth;
 
+    @NotBlank
+    @Size(max = 10)
     private String phone;
 }
