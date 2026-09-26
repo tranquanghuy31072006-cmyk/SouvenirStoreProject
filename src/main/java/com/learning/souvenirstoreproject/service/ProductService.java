@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class ProductService {
     CategoryRepository categoryRepository;
 
     //create
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public ProductResponse createProduct(ProductCreationRequest productCreationRequest) {
         Category category = categoryRepository.findById(productCreationRequest.getCategoryId()).
                 orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
@@ -66,6 +68,7 @@ public class ProductService {
     }
 
     //update
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public ProductResponse updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
         Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
@@ -74,7 +77,16 @@ public class ProductService {
         return productMapper.toProductResponse(productRepository.save(product));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    public ProductResponse activateProductStatus(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        product.setStatus(ProductStatus.INACTIVE);
+
+        return  productMapper.toProductResponse(productRepository.save(product));
+    }
+
     //deactivateProduct
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse deactivateProductStatus(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         product.setStatus(ProductStatus.INACTIVE);
@@ -83,6 +95,7 @@ public class ProductService {
     }
 
     //delete
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteProductById(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));

@@ -55,6 +55,14 @@ public class CategoryController {
                 .build();
     }
 
+    @PutMapping("/activate-category-status/{categoryId}")
+    ApiResponse<CategoryResponse> activateCategoryStatus(@PathVariable Long categoryId) {
+        categoryService.deactivateCategory(categoryId);
+        return ApiResponse.<CategoryResponse>builder()
+                .result(categoryService.activateCategory(categoryId))
+                .build();
+    }
+
     //deactivateCategoryStatus
     @PutMapping("/deactivate-category-status/{categoryId}")
     ApiResponse<CategoryResponse> deactivateCategoryStatus(@PathVariable Long categoryId) {

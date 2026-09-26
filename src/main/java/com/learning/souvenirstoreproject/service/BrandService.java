@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class BrandService {
     BrandMapper brandMapper;
 
     //createBrand
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public BrandResponse createBrand(BrandCreationRequest brandCreationRequest) {
         if (brandRepository.existsByName(brandCreationRequest.getName()))
             throw new AppException(ErrorCode.BRAND_EXISTED);
@@ -56,6 +58,7 @@ public class BrandService {
     }
 
     //updateBrand
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public BrandResponse updateBrand(Long id, BrandUpdateRequest brandUpdateRequest) {
         Brand brand = brandRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
@@ -63,14 +66,27 @@ public class BrandService {
         return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    public BrandResponse activateBrand(Long id) {
+        Brand brand =  brandRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+        if (brand.getStatus() == BrandStatus.ACTIVE)
+            throw new AppException(ErrorCode.BRAND_ALREADY_ACTIVE);
+        brand.setStatus(BrandStatus.ACTIVE);
+        return brandMapper.toBrandResponse(brandRepository.save(brand));
+    }
+
     //deactivateBrand
+    @PreAuthorize("hasRole('ADMIN')")
     public BrandResponse deactivateBrand(Long id) {
         Brand brand =  brandRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+        if (brand.getStatus() == BrandStatus.INACTIVE)
+            throw new AppException(ErrorCode.BRAND_ALREADY_INACTIVE);
         brand.setStatus(BrandStatus.INACTIVE);
         return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
 
     //deleteBrand
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteBrand(Long id) {
         Brand brand = brandRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
         brandRepository.delete(brand);

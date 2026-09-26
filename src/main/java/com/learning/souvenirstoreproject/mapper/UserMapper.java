@@ -1,5 +1,6 @@
 package com.learning.souvenirstoreproject.mapper;
 
+import com.learning.souvenirstoreproject.dto.request.RegisterRequest;
 import com.learning.souvenirstoreproject.dto.request.UserCreationRequest;
 import com.learning.souvenirstoreproject.dto.request.UserUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.UserResponse;
@@ -10,6 +11,8 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     User toUser(UserCreationRequest userCreationRequest);
+
+    User toUser(RegisterRequest registerRequest);
 
     UserResponse toUserResponse(User user);
 

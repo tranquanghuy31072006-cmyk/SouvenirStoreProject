@@ -13,6 +13,7 @@ import com.learning.souvenirstoreproject.repository.ProductRepository;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class CategoryService {
     CategoryMapper categoryMapper;
 
     //createCategory
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public CategoryResponse createCategory(CategoryCreationRequest request) {
 
         if (categoryRepository.existsByName(request.getName())) {
@@ -58,21 +60,41 @@ public class CategoryService {
     }
 
     //updateCategory
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public CategoryResponse updateCategory(Long id, CategoryUpdateRequest categoryUpdateRequest) {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
         categoryMapper.updateCategory(category, categoryUpdateRequest);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
-    //deactivateCategory
-    public CategoryResponse deactivateCategory(Long id){
+    @PreAuthorize("hasRole('ADMIN')")
+    public CategoryResponse activateCategory(Long id) {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        if (category.getStatus() == CategoryStatus.ACTIVE) {
+            throw new AppException(ErrorCode.CATEGORY_ALREADY_ACTIVE);
+        }
+        category.setStatus(CategoryStatus.ACTIVE);
+
+        return categoryMapper.toCategoryResponse(categoryRepository.save(category));
+    }
+
+
+    //deactivateCategory
+    @PreAuthorize("hasRole('ADMIN')")
+    public CategoryResponse deactivateCategory(Long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        if (category.getStatus() == CategoryStatus.INACTIVE) {
+            throw new AppException(ErrorCode.CATEGORY_ALREADY_INACTIVE);
+        }
         category.setStatus(CategoryStatus.INACTIVE);
 
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
     //deleteCategory
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategoryStatus(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));

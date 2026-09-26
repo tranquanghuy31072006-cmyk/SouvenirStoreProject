@@ -34,6 +34,14 @@ public enum ErrorCode {
     USERNAME_EXISTED(1021, "Username existed"),
     PHONE_EXISTED(1022, "Phone number existed"),
     USER_BLOCKED(1023, "User blocked"),
+    CATEGORY_ALREADY_ACTIVE(1024, "Category already active"),
+    CATEGORY_ALREADY_INACTIVE(1025, "Category already inactive"),
+    BRAND_ALREADY_ACTIVE(1026, "Brand already active"),
+    BRAND_ALREADY_INACTIVE(1027, "Brand already inactive"),
+    USER_ALREADY_ACTIVE(1028, "User already active"),
+    USER_ALREADY_BLOCK(1029, "User already block"),
+    PRODUCT_ALREADY_ACTIVE(1030, "Product already active"),
+    PRODUCT_ALREADY_INACTIVE(1031, "Product already inactive"),
     ;
 
     int code;

@@ -53,6 +53,13 @@ public class BrandController {
                 .build();
     }
 
+    @PutMapping("/activate-brand-status/{brandId}")
+    ApiResponse<BrandResponse> activateBrand(@PathVariable Long brandId) {
+        return ApiResponse.<BrandResponse>builder()
+                .result(brandService.activateBrand(brandId))
+                .build();
+    }
+
     //deactivateBrandStatus
     @PutMapping("/deactivate-brand-status/{brandId}")
     ApiResponse<BrandResponse> deactivateBrand(@PathVariable Long brandId) {

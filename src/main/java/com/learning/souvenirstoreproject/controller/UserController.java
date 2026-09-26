@@ -60,13 +60,28 @@ public class UserController {
                 .message("User has been deleted successfully")
                 .build();
     }
+    //getCurrentUser
+    @GetMapping("/me")
+    ApiResponse<UserResponse> getCurrentUser(){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getMyInfo())
+                .build();
+    }
 
     //changePassword
-    @PutMapping("/change-password/{userId}")
-    ApiResponse<String> changePassword(@PathVariable Long userId, @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest){
-        userService.changePassword(userId, userPasswordUpdateRequest);
+    @PutMapping("/change-password")
+    ApiResponse<String> changePassword(@RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest){
+        userService.changePassword(userPasswordUpdateRequest);
         return ApiResponse.<String>builder()
                 .message("Password Updated")
+                .build();
+    }
+
+    //activateUserStatus
+    @PutMapping("/activate-user-status/{userId}")
+    ApiResponse<UserResponse> activateUserStatus(@PathVariable Long userId){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.activateUserStatus(userId))
                 .build();
     }
 
