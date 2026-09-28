@@ -6,6 +6,7 @@ import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.CategoryResponse;
 import com.learning.souvenirstoreproject.repository.CategoryRepository;
 import com.learning.souvenirstoreproject.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class CategoryController {
 
     //createCategory
     @PostMapping("/create-category")
-    ApiResponse<CategoryResponse> createCategory(@RequestBody CategoryCreationRequest categoryCreationRequest) {
+    ApiResponse<CategoryResponse> createCategory(@Valid @RequestBody CategoryCreationRequest categoryCreationRequest) {
         return ApiResponse.<CategoryResponse>builder()
                 .result(categoryService.createCategory(categoryCreationRequest))
                 .build();
@@ -49,7 +50,7 @@ public class CategoryController {
 
     //updateCategory
     @PutMapping("/update-category/{categoryId}")
-    ApiResponse<CategoryResponse> updateCategory(@PathVariable Long categoryId,@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
+    ApiResponse<CategoryResponse> updateCategory(@PathVariable Long categoryId,@Valid @RequestBody CategoryUpdateRequest categoryUpdateRequest) {
         return ApiResponse.<CategoryResponse>builder()
                 .result(categoryService.updateCategory(categoryId, categoryUpdateRequest))
                 .build();

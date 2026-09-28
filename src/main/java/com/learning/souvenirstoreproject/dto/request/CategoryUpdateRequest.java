@@ -1,6 +1,5 @@
 package com.learning.souvenirstoreproject.dto.request;
 
-import com.learning.souvenirstoreproject.enums.CategoryStatus;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 

@@ -54,8 +54,7 @@ public class JwtService {
         return jwtEncoder.encode(parameters).getTokenValue();
     }
 
-
-    public Jwt verifyToken(String token, boolean isRefresh) {
+    public Jwt verifyToken(String token) {
         try {
             Jwt jwt = jwtDecoder.decode(token);
             if(invalidatedTokenRepository.existsInvalidatedTokenById(jwt.getId())){

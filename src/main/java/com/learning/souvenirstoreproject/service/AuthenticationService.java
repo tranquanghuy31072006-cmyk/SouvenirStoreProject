@@ -52,7 +52,7 @@ public class AuthenticationService {
 
     public IntrospectResponse introspect(IntrospectRequest request) {
         try {
-            jwtService.verifyToken(request.getToken(), false);
+            jwtService.verifyToken(request.getToken());
 
             return IntrospectResponse.builder().valid(true).build();
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class AuthenticationService {
 
     public void logout(LogoutRequest request) {
         try {
-            Jwt jwt = jwtService.verifyToken(request.getToken(), false);
+            Jwt jwt = jwtService.verifyToken(request.getToken());
             InvalidatedToken invalidatedToken = InvalidatedToken.builder()
                     .id(jwt.getId())
                     .expirationTime(jwt.getExpiresAt())
@@ -74,7 +74,7 @@ public class AuthenticationService {
     }
 
     public LoginResponse refreshToken(RefreshRequest request) {
-        Jwt jwt = jwtService.verifyToken(request.getToken(), true);
+        Jwt jwt = jwtService.verifyToken(request.getToken());
 
         InvalidatedToken invalidatedToken = InvalidatedToken.builder()
                 .id(jwt.getId())

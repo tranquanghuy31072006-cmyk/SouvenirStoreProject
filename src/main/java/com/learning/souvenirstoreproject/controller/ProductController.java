@@ -5,6 +5,7 @@ import com.learning.souvenirstoreproject.dto.request.ProductUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.ProductResponse;
 import com.learning.souvenirstoreproject.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class ProductController {
 
     //createProduct
     @PostMapping("/create-product")
-    public ApiResponse<ProductResponse> createProduct(@RequestBody ProductCreationRequest productCreationRequest){
+    public ApiResponse<ProductResponse> createProduct(@Valid @RequestBody ProductCreationRequest productCreationRequest) {
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.createProduct(productCreationRequest))
                 .build();
@@ -31,7 +32,7 @@ public class ProductController {
 
     //getProductById
     @GetMapping("/get-product-by-id/{productId}")
-    public ApiResponse<ProductResponse> getProductById(@PathVariable Long productId){
+    public ApiResponse<ProductResponse> getProductById(@PathVariable Long productId) {
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.getProductById(productId))
                 .build();
@@ -39,7 +40,7 @@ public class ProductController {
 
     //update
     @PutMapping("/update-product/{productId}")
-    public ApiResponse<ProductResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductUpdateRequest productUpdateRequest){
+    public ApiResponse<ProductResponse> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductUpdateRequest productUpdateRequest) {
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.updateProduct(productId, productUpdateRequest))
                 .build();
@@ -47,14 +48,14 @@ public class ProductController {
 
     //getAllProducts
     @GetMapping("/get-all-products")
-    public ApiResponse<List<ProductResponse>> getAllProducts(){
+    public ApiResponse<List<ProductResponse>> getAllProducts() {
         return ApiResponse.<List<ProductResponse>>builder()
                 .result(productService.getAllProducts())
                 .build();
     }
 
     @PutMapping("/activate-product-status/{productId}")
-    public ApiResponse<ProductResponse> activateProductStatus(@PathVariable Long productId){
+    public ApiResponse<ProductResponse> activateProductStatus(@PathVariable Long productId) {
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.activateProductStatus(productId))
                 .build();
@@ -62,7 +63,7 @@ public class ProductController {
 
     //deactivateProductStatus
     @PutMapping("/deactivate-product-status/{productId}")
-    public ApiResponse<ProductResponse> deactivateProductStatus(@PathVariable Long productId){
+    public ApiResponse<ProductResponse> deactivateProductStatus(@PathVariable Long productId) {
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.deactivateProductStatus(productId))
                 .build();
@@ -70,7 +71,7 @@ public class ProductController {
 
     //delete
     @DeleteMapping("/delete-product/{productId}")
-    public ApiResponse<String> deleteProduct(@PathVariable Long productId){
+    public ApiResponse<String> deleteProduct(@PathVariable Long productId) {
         productService.deleteProductById(productId);
 
         return ApiResponse.<String>builder()

@@ -6,6 +6,7 @@ import com.learning.souvenirstoreproject.dto.request.UserUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.UserResponse;
 import com.learning.souvenirstoreproject.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,7 +23,7 @@ public class UserController {
 
     //createUser
     @PostMapping("/register")
-    ApiResponse<UserResponse> createUser(@RequestBody UserCreationRequest userCreationRequest) {
+    ApiResponse<UserResponse> createUser(@Valid @RequestBody UserCreationRequest userCreationRequest) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(userCreationRequest))
                 .build();
@@ -38,7 +39,7 @@ public class UserController {
 
     //updateUser
     @PutMapping("/{userId}")
-    ApiResponse<UserResponse> updateUser(@PathVariable Long userId, @RequestBody UserUpdateRequest userUpdateRequest) {
+    ApiResponse<UserResponse> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.updateUser(userId, userUpdateRequest))
                 .build();
@@ -70,7 +71,7 @@ public class UserController {
 
     //changePassword
     @PutMapping("/change-password")
-    ApiResponse<String> changePassword(@RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest){
+    ApiResponse<String> changePassword(@Valid @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest){
         userService.changePassword(userPasswordUpdateRequest);
         return ApiResponse.<String>builder()
                 .message("Password Updated")

@@ -7,6 +7,7 @@ import com.learning.souvenirstoreproject.dto.response.LoginResponse;
 import com.learning.souvenirstoreproject.dto.response.UserResponse;
 import com.learning.souvenirstoreproject.service.AuthenticationService;
 import com.learning.souvenirstoreproject.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,21 +22,21 @@ public class AuthenticationController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ApiResponse<UserResponse> register(@RequestBody RegisterRequest registerRequest) {
+    public ApiResponse<UserResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.registerUser(registerRequest))
                 .build();
     }
 
     @PostMapping("/login")
-    public ApiResponse<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         return ApiResponse.<LoginResponse>builder()
                 .result(authenticationService.login(loginRequest))
                 .build();
     }
 
     @PostMapping("/logout")
-    public ApiResponse<String> logout(@RequestBody LogoutRequest logoutRequest) {
+    public ApiResponse<String> logout(@Valid @RequestBody LogoutRequest logoutRequest) {
         authenticationService.logout(logoutRequest);
 
         return ApiResponse.<String>builder()
@@ -44,14 +45,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/introspect")
-    public ApiResponse<IntrospectResponse>  introspect(@RequestBody IntrospectRequest introspectRequest) {
+    public ApiResponse<IntrospectResponse>  introspect(@Valid @RequestBody IntrospectRequest introspectRequest) {
         return ApiResponse.<IntrospectResponse>builder()
                 .result(authenticationService.introspect(introspectRequest))
                 .build();
     }
 
     @PostMapping("/refresh")
-    public ApiResponse<LoginResponse> refresh(@RequestBody RefreshRequest refreshRequest) {
+    public ApiResponse<LoginResponse> refresh(@Valid @RequestBody RefreshRequest refreshRequest) {
         return ApiResponse.<LoginResponse>builder()
                 .result(authenticationService.refreshToken(refreshRequest))
                 .build();

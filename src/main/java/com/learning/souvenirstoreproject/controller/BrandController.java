@@ -6,6 +6,7 @@ import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.BrandResponse;
 import com.learning.souvenirstoreproject.repository.BrandRepository;
 import com.learning.souvenirstoreproject.service.BrandService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class BrandController {
 
     //createBrand
     @PostMapping("/add-brand")
-    ApiResponse<BrandResponse> createBrand(@RequestBody BrandCreationRequest brandCreationRequest) {
+    ApiResponse<BrandResponse> createBrand(@Valid  @RequestBody BrandCreationRequest brandCreationRequest) {
         return ApiResponse.<BrandResponse>builder()
                 .result(brandService.createBrand(brandCreationRequest))
                 .build();
@@ -47,7 +48,7 @@ public class BrandController {
 
     //updateBrand
     @PutMapping("/update-brand/{brandId}")
-    ApiResponse<BrandResponse> updateBrand(@PathVariable Long brandId, @RequestBody BrandUpdateRequest brandUpdateRequest) {
+    ApiResponse<BrandResponse> updateBrand(@PathVariable Long brandId, @Valid  @RequestBody BrandUpdateRequest brandUpdateRequest) {
         return ApiResponse.<BrandResponse>builder()
                 .result(brandService.updateBrand(brandId, brandUpdateRequest))
                 .build();

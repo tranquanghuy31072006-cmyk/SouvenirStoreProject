@@ -1,7 +1,5 @@
 package com.learning.souvenirstoreproject.dto.request;
 
-import com.learning.souvenirstoreproject.entity.ProductImage;
-import com.learning.souvenirstoreproject.enums.ProductStatus;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
