@@ -1,37 +1,35 @@
 package com.learning.souvenirstoreproject.service;
 
-import com.learning.souvenirstoreproject.configuration.JwtProperties;
 import com.learning.souvenirstoreproject.dto.request.*;
-import com.learning.souvenirstoreproject.dto.response.IntrospectResponse;
-import com.learning.souvenirstoreproject.dto.response.LoginResponse;
 import com.learning.souvenirstoreproject.entity.InvalidatedToken;
 import com.learning.souvenirstoreproject.exception.AppException;
+import com.learning.souvenirstoreproject.exception.ErrorCode;
 import com.learning.souvenirstoreproject.repository.InvalidatedTokenRepository;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
 
     AuthenticationManager authenticationManager;
     JwtService jwtService;
-    JwtProperties jwtProperties;
+    RefreshTokenService refreshTokenService;
     InvalidatedTokenRepository invalidatedTokenRepository;
-    UserDetailsService userDetailsService;
 
-    public LoginResponse login(LoginRequest request) {
+    @Transactional
+    public TokenPair login(LoginRequest request) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -42,54 +40,50 @@ public class AuthenticationService {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        String token = jwtService.generateToken(userDetails);
+        String accessToken = jwtService.generateAccessToken(userDetails);
+        String refreshToken = refreshTokenService.createRefreshToken(userDetails);
 
-        return LoginResponse.builder()
-                .token(token)
-                .expiresIn(jwtProperties.getExpiration())
-                .build();
+        return new TokenPair(accessToken, refreshToken, 900L);
     }
 
-    public IntrospectResponse introspect(IntrospectRequest request) {
-        try {
-            jwtService.verifyToken(request.getToken());
+    @Transactional
+    public TokenPair refresh(String rawRefreshToken) {
 
-            return IntrospectResponse.builder().valid(true).build();
-        } catch (Exception e) {
-            return IntrospectResponse.builder().valid(false).build();
+        if (rawRefreshToken == null || rawRefreshToken.isBlank())
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+
+        UserDetails userDetails = refreshTokenService.rotateRefreshToken(rawRefreshToken);
+
+        String accessToken = jwtService.generateAccessToken(userDetails);
+        String newRefreshToken = refreshTokenService.createRefreshToken(userDetails);
+
+        return new TokenPair(accessToken, newRefreshToken, 900L);
+    }
+
+    @Transactional
+    public void logout(String refreshToken) {
+
+        if (refreshToken != null && !refreshToken.isBlank())
+            refreshTokenService.revokeRefreshToken(refreshToken);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication instanceof JwtAuthenticationToken jwtAuthentication) {
+
+            Jwt jwt = jwtAuthentication.getToken();
+
+            if (jwt.getId() != null && !jwt.getId().isBlank()) {
+
+                InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                        .id(jwt.getId())
+                        .expirationTime(jwt.getExpiresAt())
+                        .build();
+
+                invalidatedTokenRepository.save(invalidatedToken);
+            }
         }
     }
 
-    public void logout(LogoutRequest request) {
-        try {
-            Jwt jwt = jwtService.verifyToken(request.getToken());
-            InvalidatedToken invalidatedToken = InvalidatedToken.builder()
-                    .id(jwt.getId())
-                    .expirationTime(jwt.getExpiresAt())
-                    .build();
-            invalidatedTokenRepository.save(invalidatedToken);
-        } catch (AppException e) {
-            log.info("The token is expired or invalid, skipping addition to the blacklist.");
-        }
-    }
-
-    public LoginResponse refreshToken(RefreshRequest request) {
-        Jwt jwt = jwtService.verifyToken(request.getToken());
-
-        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
-                .id(jwt.getId())
-                .expirationTime(jwt.getExpiresAt())
-                .build();
-        invalidatedTokenRepository.save(invalidatedToken);
-
-        String username = jwt.getSubject();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-        String token = jwtService.generateToken(userDetails);
-
-        return LoginResponse.builder()
-                .token(token)
-                .expiresIn(jwtProperties.getExpiration())
-                .build();
+    public record TokenPair(String accessToken, String refreshToken, long expiresIn) {
     }
 }

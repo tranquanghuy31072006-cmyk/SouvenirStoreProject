@@ -24,23 +24,22 @@ import java.util.UUID;
 public class JwtService {
     JwtEncoder jwtEncoder;
     JwtProperties jwtProperties;
-    JwtDecoder jwtDecoder;
-    InvalidatedTokenRepository invalidatedTokenRepository;
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateAccessToken(UserDetails userDetails) {
         Instant issuedAt = Instant.now();
 
-        Instant expiration = issuedAt.plusSeconds(jwtProperties.getExpiration());
+        Instant expiration = issuedAt.plusSeconds(jwtProperties.getAccessTokenExpiration());
 
-        String role = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+        String role = userDetails.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
                 .filter(authority -> authority.startsWith("ROLE_"))
                 .map(authority -> authority.substring(5))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("User role not found"));
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("User role not found"));
 
         JwsHeader jwsHeader = JwsHeader.with(MacAlgorithm.HS256).build();
 
-        JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
+        JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer(jwtProperties.getIssuer())
                 .subject(userDetails.getUsername())
                 .issuedAt(issuedAt)
@@ -49,23 +48,6 @@ public class JwtService {
                 .id(UUID.randomUUID().toString())
                 .build();
 
-        JwtEncoderParameters parameters = JwtEncoderParameters.from(jwsHeader, jwtClaimsSet);
-
-        return jwtEncoder.encode(parameters).getTokenValue();
-    }
-
-    public Jwt verifyToken(String token) {
-        try {
-            Jwt jwt = jwtDecoder.decode(token);
-            if(invalidatedTokenRepository.existsInvalidatedTokenById(jwt.getId())){
-                log.warn("Token with id: {} has been in Black list", jwt.getId());
-                throw new AppException(ErrorCode.UNAUTHENTICATED);
-            }
-
-            return jwt;
-        }catch (JwtException e) {
-            log.warn("Invalid Token");
-            throw new AppException(ErrorCode.UNAUTHENTICATED);
-        }
+        return jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
     }
 }
