@@ -2,6 +2,7 @@ package com.learning.souvenirstoreproject.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -15,20 +16,28 @@ import java.time.LocalDate;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterRequest {
-    @NotBlank
-    private String username;
 
-    @NotBlank
-    private String password;
+    @NotBlank(message = "Username must not be blank")
+    @Size(min = 3, max = 100, message = "Username must be between 3 and 100 characters")
+    String username;
 
-    @Email
-    private String email;
+    @NotBlank(message = "Password must not be blank")
+    @Size(min = 6, max = 72, message = "Password must be between 6 and 72 characters")
+    String password;
 
-    private String fullName;
+    @NotBlank(message = "Email must not be blank")
+    @Email(message = "Email format is invalid")
+    @Size(max = 255, message = "Email must not exceed 255 characters")
+    String email;
 
-    private LocalDate dateOfBirth;
+    @NotBlank(message = "Phone must not be blank")
+    @Size(min = 10, max = 10, message = "The phone number must contain exactly 10 digits.")
+    String phone;
 
-    @NotBlank
-    @Size(max = 10)
-    private String phone;
+    @NotBlank(message = "Full name must not be blank")
+    @Size(max = 255, message = "Full name must not exceed 255 characters")
+    String fullName;
+
+    @Past(message = "Date of birth is invalid")
+    LocalDate dateOfBirth;
 }

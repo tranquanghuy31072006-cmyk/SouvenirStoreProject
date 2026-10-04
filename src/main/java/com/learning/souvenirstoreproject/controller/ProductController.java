@@ -1,8 +1,7 @@
 package com.learning.souvenirstoreproject.controller;
 
-import com.learning.souvenirstoreproject.dto.request.ProductCreationRequest;
-import com.learning.souvenirstoreproject.dto.request.ProductUpdateRequest;
-import com.learning.souvenirstoreproject.dto.response.ApiResponse;
+import com.learning.souvenirstoreproject.dto.request.ProductRequest;
+import com.learning.souvenirstoreproject.exception.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.ProductResponse;
 import com.learning.souvenirstoreproject.service.ProductService;
 import jakarta.validation.Valid;
@@ -24,9 +23,9 @@ public class ProductController {
 
     //createProduct
     @PostMapping("/create-product")
-    public ApiResponse<ProductResponse> createProduct(@Valid @RequestBody ProductCreationRequest productCreationRequest) {
+    public ApiResponse<ProductResponse> createProduct(@Valid @RequestBody ProductRequest productRequest) {
         return ApiResponse.<ProductResponse>builder()
-                .result(productService.createProduct(productCreationRequest))
+                .result(productService.createProduct(productRequest))
                 .build();
     }
 
@@ -40,9 +39,9 @@ public class ProductController {
 
     //update
     @PutMapping("/update-product/{productId}")
-    public ApiResponse<ProductResponse> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductUpdateRequest productUpdateRequest) {
+    public ApiResponse<ProductResponse> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductRequest productRequest) {
         return ApiResponse.<ProductResponse>builder()
-                .result(productService.updateProduct(productId, productUpdateRequest))
+                .result(productService.updateProduct(productId, productRequest))
                 .build();
     }
 

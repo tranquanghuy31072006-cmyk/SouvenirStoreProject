@@ -1,5 +1,6 @@
 package com.learning.souvenirstoreproject.dto.request;
 
+import jakarta.validation.constraints.Past;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,6 +16,7 @@ public class UserUpdateRequest {
 
     String fullName;
 
+    @Past(message = "Date of birth is invalid")
     LocalDate dateOfBirth;
 
     String phone;

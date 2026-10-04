@@ -1,30 +1,33 @@
 package com.learning.souvenirstoreproject.dto.request;
 
+import com.learning.souvenirstoreproject.enums.PaymentMethod;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderRequest {
-    @NotBlank
-    @Size(max = 150)
-    String receiverName;
 
-    @NotNull
-    @Size(max = 20)
-    String phone;
+    @NotBlank(message = "Receiver name must not be blank")
+    @Size(max = 255, message = "Receiver name must not exceed 255 characters")
+    private String receiverName;
 
-    @NotBlank
-    @Size(max = 250)
-    String address;
+    @NotBlank(message = "Receiver phone must not be blank")
+    private String receiverPhone;
 
-    @Size(max = 500)
-    String note;
+    @NotBlank(message = "Receiver address must not be blank")
+    @Size(max = 500, message = "Receiver address must not exceed 500 characters")
+    private String receiverAddress;
+
+    @NotNull(message = "Payment method must not be null")
+    private PaymentMethod paymentMethod;
+
+    @Size(max = 500, message = "Note must not exceed 500 characters")
+    private String note;
 }

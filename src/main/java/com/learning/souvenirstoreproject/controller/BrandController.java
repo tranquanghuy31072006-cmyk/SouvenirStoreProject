@@ -1,8 +1,7 @@
 package com.learning.souvenirstoreproject.controller;
 
-import com.learning.souvenirstoreproject.dto.request.BrandCreationRequest;
-import com.learning.souvenirstoreproject.dto.request.BrandUpdateRequest;
-import com.learning.souvenirstoreproject.dto.response.ApiResponse;
+import com.learning.souvenirstoreproject.dto.request.BrandRequest;
+import com.learning.souvenirstoreproject.exception.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.BrandResponse;
 import com.learning.souvenirstoreproject.repository.BrandRepository;
 import com.learning.souvenirstoreproject.service.BrandService;
@@ -26,9 +25,9 @@ public class BrandController {
 
     //createBrand
     @PostMapping("/add-brand")
-    ApiResponse<BrandResponse> createBrand(@Valid  @RequestBody BrandCreationRequest brandCreationRequest) {
+    ApiResponse<BrandResponse> createBrand(@Valid @RequestBody BrandRequest brandRequest) {
         return ApiResponse.<BrandResponse>builder()
-                .result(brandService.createBrand(brandCreationRequest))
+                .result(brandService.createBrand(brandRequest))
                 .build();
     }
 
@@ -48,9 +47,9 @@ public class BrandController {
 
     //updateBrand
     @PutMapping("/update-brand/{brandId}")
-    ApiResponse<BrandResponse> updateBrand(@PathVariable Long brandId, @Valid  @RequestBody BrandUpdateRequest brandUpdateRequest) {
+    ApiResponse<BrandResponse> updateBrand(@PathVariable Long brandId, @Valid @RequestBody BrandRequest brandRequest) {
         return ApiResponse.<BrandResponse>builder()
-                .result(brandService.updateBrand(brandId, brandUpdateRequest))
+                .result(brandService.updateBrand(brandId, brandRequest))
                 .build();
     }
 

@@ -1,7 +1,6 @@
 package com.learning.souvenirstoreproject.service;
 
-import com.learning.souvenirstoreproject.dto.request.BrandCreationRequest;
-import com.learning.souvenirstoreproject.dto.request.BrandUpdateRequest;
+import com.learning.souvenirstoreproject.dto.request.BrandRequest;
 import com.learning.souvenirstoreproject.dto.response.BrandResponse;
 import com.learning.souvenirstoreproject.entity.Brand;
 import com.learning.souvenirstoreproject.enums.BrandStatus;
@@ -30,11 +29,11 @@ public class BrandService {
 
     //createBrand
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
-    public BrandResponse createBrand(BrandCreationRequest brandCreationRequest) {
-        if (brandRepository.existsByName(brandCreationRequest.getName()))
+    public BrandResponse createBrand(BrandRequest brandRequest) {
+        if (brandRepository.existsByName(brandRequest.getName()))
             throw new AppException(ErrorCode.BRAND_EXISTED);
 
-        Brand brand = brandMapper.toBrand(brandCreationRequest);
+        Brand brand = brandMapper.toBrand(brandRequest);
 
         try {
             brandRepository.save(brand);
@@ -59,10 +58,10 @@ public class BrandService {
 
     //updateBrand
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
-    public BrandResponse updateBrand(Long id, BrandUpdateRequest brandUpdateRequest) {
+    public BrandResponse updateBrand(Long id, BrandRequest brandRequest) {
         Brand brand = brandRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
-        brandMapper.updateBrand(brand, brandUpdateRequest);
+        brandMapper.updateBrand(brand, brandRequest);
         return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
 

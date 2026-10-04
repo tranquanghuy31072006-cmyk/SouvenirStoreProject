@@ -1,7 +1,6 @@
 package com.learning.souvenirstoreproject.service;
 
-import com.learning.souvenirstoreproject.dto.request.CategoryCreationRequest;
-import com.learning.souvenirstoreproject.dto.request.CategoryUpdateRequest;
+import com.learning.souvenirstoreproject.dto.request.CategoryRequest;
 import com.learning.souvenirstoreproject.dto.response.CategoryResponse;
 import com.learning.souvenirstoreproject.entity.Category;
 import com.learning.souvenirstoreproject.enums.CategoryStatus;
@@ -29,7 +28,7 @@ public class CategoryService {
 
     //createCategory
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
-    public CategoryResponse createCategory(CategoryCreationRequest request) {
+    public CategoryResponse createCategory(CategoryRequest request) {
 
         if (categoryRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.CATEGORY_EXISTED);
@@ -61,9 +60,9 @@ public class CategoryService {
 
     //updateCategory
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
-    public CategoryResponse updateCategory(Long id, CategoryUpdateRequest categoryUpdateRequest) {
+    public CategoryResponse updateCategory(Long id, CategoryRequest categoryRequest) {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
-        categoryMapper.updateCategory(category, categoryUpdateRequest);
+        categoryMapper.updateCategory(category, categoryRequest);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 

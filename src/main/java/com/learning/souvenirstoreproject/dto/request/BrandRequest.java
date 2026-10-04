@@ -9,12 +9,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BrandCreationRequest {
+public class BrandRequest {
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank(message = "Brand name must not be blank")
+    @Size(max = 255, message = "Brand name must not exceed 255 characters")
     private String name;
 
-    @Size(max = 500)
+    @Size(max = 500, message = "Logo URL must not exceed 500 characters")
     private String logo;
 }

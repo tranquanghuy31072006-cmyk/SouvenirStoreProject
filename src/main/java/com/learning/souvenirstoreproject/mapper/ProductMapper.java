@@ -1,7 +1,6 @@
 package com.learning.souvenirstoreproject.mapper;
 
-import com.learning.souvenirstoreproject.dto.request.ProductCreationRequest;
-import com.learning.souvenirstoreproject.dto.request.ProductUpdateRequest;
+import com.learning.souvenirstoreproject.dto.request.ProductRequest;
 import com.learning.souvenirstoreproject.dto.response.ProductResponse;
 import com.learning.souvenirstoreproject.entity.Product;
 import org.mapstruct.Mapper;
@@ -16,9 +15,9 @@ public interface ProductMapper {
     @Mapping(source = "category.name", target = "categoryName")
     ProductResponse toProductResponse(Product product);
 
-    Product toProduct(ProductCreationRequest productCreationRequest);
+    Product toProduct(ProductRequest productRequest);
 
-    void updateProduct(@MappingTarget Product product, ProductUpdateRequest productUpdateRequest);
+    void updateProduct(@MappingTarget Product product, ProductRequest productRequest);
 
     List<ProductResponse> toProductResponseList(List<Product> productList);
 }

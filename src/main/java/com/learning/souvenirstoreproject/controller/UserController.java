@@ -3,7 +3,7 @@ package com.learning.souvenirstoreproject.controller;
 import com.learning.souvenirstoreproject.dto.request.UserPasswordUpdateRequest;
 import com.learning.souvenirstoreproject.dto.request.UserCreationRequest;
 import com.learning.souvenirstoreproject.dto.request.UserUpdateRequest;
-import com.learning.souvenirstoreproject.dto.response.ApiResponse;
+import com.learning.souvenirstoreproject.exception.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.UserResponse;
 import com.learning.souvenirstoreproject.service.UserService;
 import jakarta.validation.Valid;

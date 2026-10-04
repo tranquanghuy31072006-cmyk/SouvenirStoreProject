@@ -1,6 +1,7 @@
 package com.learning.souvenirstoreproject.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,9 +12,12 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginRequest {
-    @NotBlank
-    private String username;
 
-    @NotBlank
-    private String password;
+    @NotBlank(message = "Username must not be blank")
+    @Size(max = 100, message = "Username must not exceed 100 characters")
+    String username;
+
+    @NotBlank(message = "Password must not be blank")
+    @Size(max = 72, message = "Password must not exceed 72 characters")
+    String password;
 }

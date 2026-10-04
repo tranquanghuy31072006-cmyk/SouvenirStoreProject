@@ -1,7 +1,6 @@
 package com.learning.souvenirstoreproject.service;
 
-import com.learning.souvenirstoreproject.dto.request.ProductCreationRequest;
-import com.learning.souvenirstoreproject.dto.request.ProductUpdateRequest;
+import com.learning.souvenirstoreproject.dto.request.ProductRequest;
 import com.learning.souvenirstoreproject.dto.response.ProductResponse;
 import com.learning.souvenirstoreproject.entity.Category;
 import com.learning.souvenirstoreproject.entity.Product;
@@ -32,17 +31,17 @@ public class ProductService {
 
     //create
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
-    public ProductResponse createProduct(ProductCreationRequest productCreationRequest) {
-        Category category = categoryRepository.findById(productCreationRequest.getCategoryId()).
+    public ProductResponse createProduct(ProductRequest productRequest) {
+        Category category = categoryRepository.findById(productRequest.getCategoryId()).
                 orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        if (productRepository.existsByName(productCreationRequest.getName())) {
+        if (productRepository.existsByName(productRequest.getName())) {
             throw new AppException(ErrorCode.PRODUCT_EXISTED);
         }
-        Product product = productMapper.toProduct(productCreationRequest);
+        Product product = productMapper.toProduct(productRequest);
 
         product.setCategory(category);
-        product.setThumbnail(productCreationRequest.getThumbnail());
+        product.setThumbnail(productRequest.getThumbnail());
 
         try {
             productRepository.save(product);
@@ -69,10 +68,10 @@ public class ProductService {
 
     //update
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
-    public ProductResponse updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
+    public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
         Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        productMapper.updateProduct(product, productUpdateRequest);
+        productMapper.updateProduct(product, productRequest);
 
         return productMapper.toProductResponse(productRepository.save(product));
     }

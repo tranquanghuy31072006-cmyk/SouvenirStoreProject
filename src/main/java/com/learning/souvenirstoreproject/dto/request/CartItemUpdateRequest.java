@@ -9,10 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartItemRequest {
-
-    @NotNull(message = "Product variant id must not be null")
-    private Long productVariantId;
+public class CartItemUpdateRequest {
 
     @NotNull(message = "Quantity must not be null")
     @Min(value = 1, message = "Quantity must be at least 1")
