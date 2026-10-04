@@ -26,73 +26,71 @@ public class CategoryService {
     ProductRepository productRepository;
     CategoryMapper categoryMapper;
 
-    //createCategory
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public CategoryResponse createCategory(CategoryRequest request) {
 
-        if (categoryRepository.existsByName(request.getName())) {
-            throw new AppException(ErrorCode.CATEGORY_EXISTED);
-        }
+        if (categoryRepository.existsByName(request.getName()))
+            throw new AppException(ErrorCode.CATEGORY_ALREADY_EXISTS);
 
         Category category = categoryMapper.toCategory(request);
 
         try {
             category = categoryRepository.save(category);
         } catch (DataIntegrityViolationException e) {
-            throw new AppException(ErrorCode.CATEGORY_EXISTED);
+            throw new AppException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
 
         return categoryMapper.toCategoryResponse(category);
     }
 
-    //getCategoryById
     public CategoryResponse getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        Category category = categoryRepository.findById(id).orElseThrow(()
+                -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
         return categoryMapper.toCategoryResponse(category);
     }
 
-    //getAllActiveCategory
     public List<CategoryResponse> getAllActiveCategory() {
         return categoryRepository.findAllByStatus(CategoryStatus.ACTIVE).stream()
                 .map(categoryMapper::toCategoryResponse).toList();
     }
 
-    //updateCategory
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public CategoryResponse updateCategory(Long id, CategoryRequest categoryRequest) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        Category category = categoryRepository.findById(id).orElseThrow(()
+                -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+
         categoryMapper.updateCategory(category, categoryRequest);
+
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse activateCategory(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        Category category = categoryRepository.findById(id).orElseThrow(()
+                -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        if (category.getStatus() == CategoryStatus.ACTIVE) {
+        if (category.getStatus() == CategoryStatus.ACTIVE)
             throw new AppException(ErrorCode.CATEGORY_ALREADY_ACTIVE);
-        }
+
         category.setStatus(CategoryStatus.ACTIVE);
 
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
-
-    //deactivateCategory
     @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse deactivateCategory(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        Category category = categoryRepository.findById(id).orElseThrow(()
+                -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        if (category.getStatus() == CategoryStatus.INACTIVE) {
+        if (category.getStatus() == CategoryStatus.INACTIVE)
             throw new AppException(ErrorCode.CATEGORY_ALREADY_INACTIVE);
-        }
+
         category.setStatus(CategoryStatus.INACTIVE);
 
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
-    //deleteCategory
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategoryStatus(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)

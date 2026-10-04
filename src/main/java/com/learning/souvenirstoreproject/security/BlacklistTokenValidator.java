@@ -20,7 +20,6 @@ public class BlacklistTokenValidator implements OAuth2TokenValidator<Jwt> {
     public OAuth2TokenValidatorResult validate(Jwt jwt) {
 
         String jti = jwt.getId();
-        log.info("BlacklistTokenValidator called, jti = {}", jti);
 
         if (jti == null || jti.isBlank()) {
             log.warn("JWT missing jti");
@@ -29,7 +28,6 @@ public class BlacklistTokenValidator implements OAuth2TokenValidator<Jwt> {
         }
 
         boolean exists = invalidatedTokenRepository.existsById(jti);
-        log.info("jti = {} exists in blacklist = {}", jti, exists);
 
         if (exists) {
             OAuth2Error error = new OAuth2Error("invalid_token", "Token has been invalidated", null);

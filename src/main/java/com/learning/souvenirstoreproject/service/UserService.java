@@ -39,37 +39,55 @@ public class UserService implements UserDetailsService {
     RoleRepository roleRepository;
     PasswordEncoder passwordEncoder;
 
-    //createUser
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return org.springframework.security.core.userdetails.User
+                .withUsername(user.getUsername())
+                .password(user.getPassword())
+                .authorities("ROLE_" + user.getRole().getName())
+                .disabled(user.getStatus() != UserStatus.ACTIVE)
+                .build();
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     public UserResponse createUser(UserCreationRequest userCreationRequest) {
-        if (userRepository.existsUserByUsername(userCreationRequest.getUsername())) {
-            throw new AppException(ErrorCode.USERNAME_EXISTED);
-        }
+        if (userRepository.existsUserByUsername(userCreationRequest.getUsername()))
+            throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
 
-        if (userRepository.existsByEmail(userCreationRequest.getEmail())) {
-            throw new AppException(ErrorCode.EMAIL_EXISTED);
-        }
+        if (userRepository.existsByEmail(userCreationRequest.getEmail()))
+            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+
+        if (userRepository.existsUserByPhone(userCreationRequest.getPhone()))
+            throw new AppException(ErrorCode.PHONE_ALREADY_EXISTS);
+
         User user = userMapper.toUser(userCreationRequest);
-        Role role = roleRepository.findById("CUSTOMER").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+
+        Role role = roleRepository.findById("CUSTOMER").orElseThrow(()
+                -> new AppException(ErrorCode.ROLE_NOT_FOUND));
         user.setRole(role);
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         try {
             user = userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            throw new AppException(ErrorCode.USER_EXISTED);
+            throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
         }
 
         return userMapper.toUserResponse(user);
     }
 
-    //getUserById
+
     @PreAuthorize("hasRole('ADMIN')")
     public UserResponse getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findById(id).orElseThrow(()
+                -> new AppException(ErrorCode.USER_NOT_FOUND));
+
         return userMapper.toUserResponse(user);
     }
 
-    //updateUserById
     @PreAuthorize("hasAnyRole('ADMIN')")
     public UserResponse updateUser(Long id, UserUpdateRequest userUpdateRequest) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
@@ -79,19 +97,16 @@ public class UserService implements UserDetailsService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    //getAllUsers
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
     }
 
-    //deleteUserById
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
-    //getMyInfo
     public UserResponse getMyInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -103,8 +118,6 @@ public class UserService implements UserDetailsService {
         return userMapper.toUserResponse(user);
     }
 
-
-    //changePassword
     public void changePassword(UserPasswordUpdateRequest userPasswordUpdateRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -122,19 +135,17 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    //activateUser
     @PreAuthorize("hasRole('ADMIN')")
     public UserResponse activateUserStatus(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         if (user.getStatus() == UserStatus.BLOCKED) {
-            throw new AppException(ErrorCode.USER_ALREADY_BLOCK);
+            throw new AppException(ErrorCode.USER_BLOCKED);
         }
         user.setStatus(UserStatus.ACTIVE);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    //deactivateUser
     @PreAuthorize("hasRole('ADMIN')")
     public UserResponse deactivateUserStatus(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
@@ -147,28 +158,15 @@ public class UserService implements UserDetailsService {
     }
 
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .authorities("ROLE_" + user.getRole().getName())
-                .disabled(user.getStatus() != UserStatus.ACTIVE)
-                .build();
-    }
-
-    //register
-    public UserResponse registerUser(RegisterRequest registerRequest) {
+    public void registerUser(RegisterRequest registerRequest) {
         if (userRepository.existsUserByUsername(registerRequest.getUsername()))
-            throw new AppException(ErrorCode.USERNAME_EXISTED);
+            throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
 
         if (userRepository.existsByEmail(registerRequest.getEmail()))
-            throw new AppException(ErrorCode.EMAIL_EXISTED);
+            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
 
         if (userRepository.existsUserByPhone(registerRequest.getPhone()))
-            throw new AppException(ErrorCode.PHONE_EXISTED);
+            throw new AppException(ErrorCode.PHONE_ALREADY_EXISTS);
 
         Role role = roleRepository.findById("CUSTOMER").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
 
@@ -178,10 +176,9 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         try {
-            user = userRepository.save(user);
+            userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            throw new AppException(ErrorCode.USER_EXISTED);
+            throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
         }
-        return userMapper.toUserResponse(user);
     }
 }

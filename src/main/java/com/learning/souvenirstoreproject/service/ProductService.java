@@ -29,47 +29,47 @@ public class ProductService {
     ProductMapper productMapper;
     CategoryRepository categoryRepository;
 
-    //create
+
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public ProductResponse createProduct(ProductRequest productRequest) {
         Category category = categoryRepository.findById(productRequest.getCategoryId()).
                 orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        if (productRepository.existsByName(productRequest.getName())) {
-            throw new AppException(ErrorCode.PRODUCT_EXISTED);
-        }
+        if (productRepository.existsByName(productRequest.getName()))
+            throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
+
         Product product = productMapper.toProduct(productRequest);
 
         product.setCategory(category);
+
         product.setThumbnail(productRequest.getThumbnail());
 
         try {
             productRepository.save(product);
         } catch (DataIntegrityViolationException e) {
-            throw new AppException(ErrorCode.PRODUCT_EXISTED);
+            throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
         }
 
         return productMapper.toProductResponse(product);
     }
 
-    //getProductById
     public ProductResponse getProductById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Product product = productRepository.findById(id).orElseThrow(()
+                -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
         return productMapper.toProductResponse(product);
     }
 
-    //getAllProducts
     public List<ProductResponse> getAllProducts() {
         List<Product> products = productRepository.findAll();
 
         return productMapper.toProductResponseList(products);
     }
 
-    //update
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Product product = productRepository.findById(id).orElseThrow(()
+                -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
         productMapper.updateProduct(product, productRequest);
 
@@ -78,22 +78,24 @@ public class ProductService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse activateProductStatus(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Product product = productRepository.findById(id).orElseThrow(()
+                -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
         product.setStatus(ProductStatus.INACTIVE);
 
         return  productMapper.toProductResponse(productRepository.save(product));
     }
 
-    //deactivateProduct
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse deactivateProductStatus(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Product product = productRepository.findById(id).orElseThrow(()
+                -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
         product.setStatus(ProductStatus.INACTIVE);
 
         return  productMapper.toProductResponse(productRepository.save(product));
     }
 
-    //delete
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProductById(Long productId) {
         Product product = productRepository.findById(productId)

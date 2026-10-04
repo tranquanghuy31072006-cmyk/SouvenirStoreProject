@@ -2,9 +2,11 @@ package com.learning.souvenirstoreproject.controller;
 
 import com.learning.souvenirstoreproject.configuration.JwtProperties;
 import com.learning.souvenirstoreproject.dto.request.LoginRequest;
+import com.learning.souvenirstoreproject.dto.request.RegisterRequest;
 import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.LoginResponse;
 import com.learning.souvenirstoreproject.service.AuthenticationService;
+import com.learning.souvenirstoreproject.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -23,8 +25,18 @@ import java.time.Duration;
 public class AuthenticationController {
     AuthenticationService authenticationService;
     JwtProperties  jwtProperties;
+    UserService userService;
 
     private static final String REFRESH_COOKIE_NAME = "refresh_token";
+
+    @PostMapping("/register")
+    public ApiResponse<String> register(@Valid @RequestBody RegisterRequest registerRequest){
+        userService.registerUser(registerRequest);
+
+        return ApiResponse.<String>builder()
+                .message("User registered successfully!")
+                .build();
+    }
 
     @PostMapping("/login")
     public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest request,

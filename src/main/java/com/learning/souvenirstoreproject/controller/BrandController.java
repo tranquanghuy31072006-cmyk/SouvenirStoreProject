@@ -23,7 +23,6 @@ public class BrandController {
     BrandRepository brandRepository;
     BrandService brandService;
 
-    //createBrand
     @PostMapping("/add-brand")
     ApiResponse<BrandResponse> createBrand(@Valid @RequestBody BrandRequest brandRequest) {
         return ApiResponse.<BrandResponse>builder()
@@ -31,7 +30,6 @@ public class BrandController {
                 .build();
     }
 
-    //getBrandById
     @GetMapping("/get-brand-by-id/{brandId}")
     ApiResponse<BrandResponse> getBrandById(@PathVariable Long brandId) {
         return ApiResponse.<BrandResponse>builder()
@@ -39,13 +37,11 @@ public class BrandController {
                 .build();
     }
 
-    //getActiveBrands
     @GetMapping("/get-active-brands")
     ApiResponse<List<BrandResponse>> getActiveBrands() {
         return ApiResponse.<List<BrandResponse>>builder().result(brandService.getActiveBrands()).build();
     }
 
-    //updateBrand
     @PutMapping("/update-brand/{brandId}")
     ApiResponse<BrandResponse> updateBrand(@PathVariable Long brandId, @Valid @RequestBody BrandRequest brandRequest) {
         return ApiResponse.<BrandResponse>builder()
@@ -60,7 +56,6 @@ public class BrandController {
                 .build();
     }
 
-    //deactivateBrandStatus
     @PutMapping("/deactivate-brand-status/{brandId}")
     ApiResponse<BrandResponse> deactivateBrand(@PathVariable Long brandId) {
         return ApiResponse.<BrandResponse>builder()
@@ -68,7 +63,6 @@ public class BrandController {
                 .build();
     }
 
-    //deleteBrand
     @DeleteMapping("/delete-brand/{brandId}")
     ApiResponse<String> deleteBrand(@PathVariable Long brandId) {
         brandService.deleteBrand(brandId);

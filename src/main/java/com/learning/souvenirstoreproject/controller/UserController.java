@@ -21,15 +21,13 @@ import java.util.List;
 public class UserController {
     UserService userService;
 
-    //createUser
-    @PostMapping("/register")
+    @PostMapping("/create-user")
     ApiResponse<UserResponse> createUser(@Valid @RequestBody UserCreationRequest userCreationRequest) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(userCreationRequest))
                 .build();
     }
 
-    //getUserById
     @GetMapping("/{userId}")
     ApiResponse<UserResponse> getUserById(@PathVariable Long userId) {
         return ApiResponse.<UserResponse>builder()
@@ -37,7 +35,6 @@ public class UserController {
                 .build();
     }
 
-    //updateUser
     @PutMapping("/{userId}")
     ApiResponse<UserResponse> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         return ApiResponse.<UserResponse>builder()
@@ -45,7 +42,6 @@ public class UserController {
                 .build();
     }
 
-    //getAllUsers
     @GetMapping
     ApiResponse<List<UserResponse>> getAllUsers(){
         return ApiResponse.<List<UserResponse>>builder()
@@ -53,7 +49,6 @@ public class UserController {
                 .build();
     }
 
-    //deleteUser
     @DeleteMapping("/{userId}")
     ApiResponse<String> deleteUser(@PathVariable Long userId){
         userService.deleteUser(userId);
@@ -61,7 +56,7 @@ public class UserController {
                 .message("User has been deleted successfully")
                 .build();
     }
-    //getCurrentUser
+
     @GetMapping("/me")
     ApiResponse<UserResponse> getCurrentUser(){
         return ApiResponse.<UserResponse>builder()
@@ -69,7 +64,6 @@ public class UserController {
                 .build();
     }
 
-    //changePassword
     @PutMapping("/change-password")
     ApiResponse<String> changePassword(@Valid @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest){
         userService.changePassword(userPasswordUpdateRequest);
@@ -78,7 +72,6 @@ public class UserController {
                 .build();
     }
 
-    //activateUserStatus
     @PutMapping("/activate-user-status/{userId}")
     ApiResponse<UserResponse> activateUserStatus(@PathVariable Long userId){
         return ApiResponse.<UserResponse>builder()
@@ -86,7 +79,6 @@ public class UserController {
                 .build();
     }
 
-    //deactivateUserStatus
     @PutMapping("/deactivate-user-status/{userId}")
     ApiResponse<UserResponse> deactivateUserStatus(@PathVariable Long userId){
         return ApiResponse.<UserResponse>builder()

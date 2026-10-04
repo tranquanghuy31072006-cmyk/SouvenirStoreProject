@@ -23,7 +23,6 @@ public class CategoryController {
     CategoryRepository categoryRepository;
     CategoryService categoryService;
 
-    //createCategory
     @PostMapping("/create-category")
     ApiResponse<CategoryResponse> createCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
         return ApiResponse.<CategoryResponse>builder()
@@ -31,7 +30,6 @@ public class CategoryController {
                 .build();
     }
 
-    //getCategoryById
     @GetMapping("/get-category/{categoryId}")
     ApiResponse<CategoryResponse> getCategoryById(@PathVariable Long categoryId) {
         return ApiResponse.<CategoryResponse>builder()
@@ -39,7 +37,6 @@ public class CategoryController {
                 .build();
     }
 
-    //getAllActiveCategory
     @GetMapping("/get-active-category")
     ApiResponse<List<CategoryResponse>> getActiveCategory() {
         return ApiResponse.<List<CategoryResponse>>builder()
@@ -47,7 +44,6 @@ public class CategoryController {
                 .build();
     }
 
-    //updateCategory
     @PutMapping("/update-category/{categoryId}")
     ApiResponse<CategoryResponse> updateCategory(@PathVariable Long categoryId,@Valid @RequestBody CategoryRequest categoryRequest) {
         return ApiResponse.<CategoryResponse>builder()
@@ -63,7 +59,6 @@ public class CategoryController {
                 .build();
     }
 
-    //deactivateCategoryStatus
     @PutMapping("/deactivate-category-status/{categoryId}")
     ApiResponse<CategoryResponse> deactivateCategoryStatus(@PathVariable Long categoryId) {
         categoryService.deactivateCategory(categoryId);
@@ -72,7 +67,6 @@ public class CategoryController {
                 .build();
     }
 
-    //deleteCategory
     @DeleteMapping("delete-category-status/{categoryId}")
     ApiResponse<String> deleteCategory(@PathVariable Long categoryId) {
         categoryService.deleteCategoryStatus(categoryId);

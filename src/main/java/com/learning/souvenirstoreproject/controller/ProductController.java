@@ -21,7 +21,6 @@ import java.util.List;
 public class ProductController {
     ProductService productService;
 
-    //createProduct
     @PostMapping("/create-product")
     public ApiResponse<ProductResponse> createProduct(@Valid @RequestBody ProductRequest productRequest) {
         return ApiResponse.<ProductResponse>builder()
@@ -29,7 +28,6 @@ public class ProductController {
                 .build();
     }
 
-    //getProductById
     @GetMapping("/get-product-by-id/{productId}")
     public ApiResponse<ProductResponse> getProductById(@PathVariable Long productId) {
         return ApiResponse.<ProductResponse>builder()
@@ -37,7 +35,6 @@ public class ProductController {
                 .build();
     }
 
-    //update
     @PutMapping("/update-product/{productId}")
     public ApiResponse<ProductResponse> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductRequest productRequest) {
         return ApiResponse.<ProductResponse>builder()
@@ -45,7 +42,6 @@ public class ProductController {
                 .build();
     }
 
-    //getAllProducts
     @GetMapping("/get-all-products")
     public ApiResponse<List<ProductResponse>> getAllProducts() {
         return ApiResponse.<List<ProductResponse>>builder()
@@ -60,7 +56,6 @@ public class ProductController {
                 .build();
     }
 
-    //deactivateProductStatus
     @PutMapping("/deactivate-product-status/{productId}")
     public ApiResponse<ProductResponse> deactivateProductStatus(@PathVariable Long productId) {
         return ApiResponse.<ProductResponse>builder()
@@ -68,7 +63,6 @@ public class ProductController {
                 .build();
     }
 
-    //delete
     @DeleteMapping("/delete-product/{productId}")
     public ApiResponse<String> deleteProduct(@PathVariable Long productId) {
         productService.deleteProductById(productId);

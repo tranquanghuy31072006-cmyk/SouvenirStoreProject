@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Map;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -12,9 +14,11 @@ import lombok.experimental.FieldDefaults;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
     @Builder.Default
-    int code = 1000;
+    int code = 100;
 
     String message;
+
+    Map<String, String> errors;
 
     T result;
 }

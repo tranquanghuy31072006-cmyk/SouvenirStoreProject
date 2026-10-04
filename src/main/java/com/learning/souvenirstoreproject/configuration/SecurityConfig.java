@@ -1,5 +1,7 @@
 package com.learning.souvenirstoreproject.configuration;
 
+import com.learning.souvenirstoreproject.security.CustomAuthenticationEntryPoint;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,8 +20,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,9 +41,9 @@ public class SecurityConfig {
                         ).permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
-                        .anyRequest()
-                        .authenticated()
+                        .anyRequest().authenticated()
                 )
+
 
                 .oauth2ResourceServer(
                         oauth2 -> oauth2
@@ -47,6 +52,7 @@ public class SecurityConfig {
                                                 jwtAuthenticationConverter()
                                         )
                                 )
+                                .authenticationEntryPoint(customAuthenticationEntryPoint)
                 );
 
         return http.build();
