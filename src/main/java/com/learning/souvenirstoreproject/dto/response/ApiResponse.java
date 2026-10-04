@@ -1,4 +1,4 @@
-package com.learning.souvenirstoreproject.exception;
+package com.learning.souvenirstoreproject.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

@@ -1,7 +1,7 @@
 package com.learning.souvenirstoreproject.controller;
 
 import com.learning.souvenirstoreproject.dto.request.ProductRequest;
-import com.learning.souvenirstoreproject.exception.ApiResponse;
+import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.ProductResponse;
 import com.learning.souvenirstoreproject.service.ProductService;
 import jakarta.validation.Valid;

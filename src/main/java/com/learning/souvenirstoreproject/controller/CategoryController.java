@@ -1,7 +1,7 @@
 package com.learning.souvenirstoreproject.controller;
 
 import com.learning.souvenirstoreproject.dto.request.CategoryRequest;
-import com.learning.souvenirstoreproject.exception.ApiResponse;
+import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.CategoryResponse;
 import com.learning.souvenirstoreproject.repository.CategoryRepository;
 import com.learning.souvenirstoreproject.service.CategoryService;

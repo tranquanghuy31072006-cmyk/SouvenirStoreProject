@@ -2,7 +2,7 @@ package com.learning.souvenirstoreproject.controller;
 
 import com.learning.souvenirstoreproject.configuration.JwtProperties;
 import com.learning.souvenirstoreproject.dto.request.LoginRequest;
-import com.learning.souvenirstoreproject.exception.ApiResponse;
+import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.LoginResponse;
 import com.learning.souvenirstoreproject.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;

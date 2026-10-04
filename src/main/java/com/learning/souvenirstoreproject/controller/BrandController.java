@@ -1,7 +1,7 @@
 package com.learning.souvenirstoreproject.controller;
 
 import com.learning.souvenirstoreproject.dto.request.BrandRequest;
-import com.learning.souvenirstoreproject.exception.ApiResponse;
+import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.BrandResponse;
 import com.learning.souvenirstoreproject.repository.BrandRepository;
 import com.learning.souvenirstoreproject.service.BrandService;
