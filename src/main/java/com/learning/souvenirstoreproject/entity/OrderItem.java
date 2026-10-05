@@ -20,15 +20,15 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
     Order order;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_variant_id")
     ProductVariant productVariant;
 
-    @Column(name = "product_name", length = 255)
+    @Column(name = "product_name", length = 255, nullable = false)
     String productName;
 
     @Column(name = "product_image", length = 500)
@@ -38,11 +38,12 @@ public class OrderItem {
 
     String color;
 
+    @Column(nullable = false)
     Integer quantity;
 
-    @Column(precision = 15, scale = 2)
+    @Column(precision = 15, scale = 2, nullable = false)
     BigDecimal price;
 
-    @Column(name = "total_price", precision = 15, scale = 2)
+    @Column(name = "total_price", precision = 15, scale = 2, nullable = false)
     BigDecimal totalPrice;
 }

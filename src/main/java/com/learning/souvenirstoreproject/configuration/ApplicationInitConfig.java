@@ -23,7 +23,7 @@ public class ApplicationInitConfig {
     PasswordEncoder passwordEncoder;
 
     @Bean
-    public CommandLineRunner initDefaultUsers(){
+    public CommandLineRunner initDefaultUsers() {
         return args -> {
             createDefaultUsers(
                     "ADMIN",
@@ -60,7 +60,7 @@ public class ApplicationInitConfig {
             return;
         }
 
-        Role role = roleRepository.findById(roleName).orElseThrow(()-> new IllegalArgumentException("Role " + roleName + " not found"));
+        Role role = roleRepository.findById(roleName).orElseThrow(() -> new IllegalArgumentException("Role " + roleName + " not found"));
         User user = User.builder()
                 .role(role)
                 .username(userName)

@@ -24,13 +24,13 @@ import java.time.Duration;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationController {
     AuthenticationService authenticationService;
-    JwtProperties  jwtProperties;
+    JwtProperties jwtProperties;
     UserService userService;
 
     private static final String REFRESH_COOKIE_NAME = "refresh_token";
 
     @PostMapping("/register")
-    public ApiResponse<String> register(@Valid @RequestBody RegisterRequest registerRequest){
+    public ApiResponse<String> register(@Valid @RequestBody RegisterRequest registerRequest) {
         userService.registerUser(registerRequest);
 
         return ApiResponse.<String>builder()
@@ -67,9 +67,9 @@ public class AuthenticationController {
 
         return ApiResponse.<LoginResponse>builder()
                 .result(LoginResponse.builder().
-                                accessToken(tokenPair.accessToken())
-                                .expiresIn(tokenPair.expiresIn())
-                                .build())
+                        accessToken(tokenPair.accessToken())
+                        .expiresIn(tokenPair.expiresIn())
+                        .build())
                 .build();
     }
 
@@ -94,7 +94,7 @@ public class AuthenticationController {
                 .secure(jwtProperties.isRefreshCookieSecure())
                 .sameSite(jwtProperties.getRefreshCookieSameSite())
                 .path(jwtProperties.getRefreshCookiePath())
-                .maxAge(jwtProperties.getRefreshTokenExpiration())
+                .maxAge(Duration.ofSeconds(jwtProperties.getRefreshTokenExpiration()))
                 .build();
     }
 

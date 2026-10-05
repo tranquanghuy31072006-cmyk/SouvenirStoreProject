@@ -31,7 +31,7 @@ public class Cart {
     @Column(name = "created_at")
     LocalDateTime createdAt;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     List<CartItem> cartItems = new ArrayList<>();
 }

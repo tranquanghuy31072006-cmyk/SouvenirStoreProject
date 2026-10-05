@@ -2,12 +2,15 @@ package com.learning.souvenirstoreproject.service;
 
 import com.learning.souvenirstoreproject.dto.request.ProductRequest;
 import com.learning.souvenirstoreproject.dto.response.ProductResponse;
+import com.learning.souvenirstoreproject.entity.Brand;
 import com.learning.souvenirstoreproject.entity.Category;
 import com.learning.souvenirstoreproject.entity.Product;
+import com.learning.souvenirstoreproject.entity.ProductImage;
 import com.learning.souvenirstoreproject.enums.ProductStatus;
 import com.learning.souvenirstoreproject.exception.AppException;
 import com.learning.souvenirstoreproject.exception.ErrorCode;
 import com.learning.souvenirstoreproject.mapper.ProductMapper;
+import com.learning.souvenirstoreproject.repository.BrandRepository;
 import com.learning.souvenirstoreproject.repository.CategoryRepository;
 import com.learning.souvenirstoreproject.repository.ProductRepository;
 import lombok.AccessLevel;
@@ -17,6 +20,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,12 +32,16 @@ public class ProductService {
     ProductRepository productRepository;
     ProductMapper productMapper;
     CategoryRepository categoryRepository;
+    BrandRepository brandRepository;
 
-
+    @Transactional
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public ProductResponse createProduct(ProductRequest productRequest) {
         Category category = categoryRepository.findById(productRequest.getCategoryId()).
                 orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        Brand brand = brandRepository.findById(productRequest.getBrandId()).
+                orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
         if (productRepository.existsByName(productRequest.getName()))
             throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
@@ -42,10 +50,24 @@ public class ProductService {
 
         product.setCategory(category);
 
+        product.setBrand(brand);
+
         product.setThumbnail(productRequest.getThumbnail());
 
+        if (productRequest.getProductImages() != null && !productRequest.getProductImages().isEmpty()) {
+            Product finalProduct = product;
+            List<ProductImage> images = productRequest.getProductImages().stream()
+                    .map(req -> ProductImage.builder()
+                            .product(finalProduct)
+                            .imageUrl(req.getImageUrl())
+                            .sortOrder(req.getSortOrder())
+                            .build())
+                    .toList();
+            product.setProductImages(images);
+        }
+
         try {
-            productRepository.save(product);
+            product = productRepository.save(product);
         } catch (DataIntegrityViolationException e) {
             throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
         }
@@ -53,6 +75,7 @@ public class ProductService {
         return productMapper.toProductResponse(product);
     }
 
+    @Transactional(readOnly = true)
     public ProductResponse getProductById(Long id) {
         Product product = productRepository.findById(id).orElseThrow(()
                 -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
@@ -60,12 +83,14 @@ public class ProductService {
         return productMapper.toProductResponse(product);
     }
 
+    @Transactional(readOnly = true)
     public List<ProductResponse> getAllProducts() {
         List<Product> products = productRepository.findAll();
 
         return productMapper.toProductResponseList(products);
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
         Product product = productRepository.findById(id).orElseThrow(()
@@ -76,6 +101,7 @@ public class ProductService {
         return productMapper.toProductResponse(productRepository.save(product));
     }
 
+    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse activateProductStatus(Long id) {
         Product product = productRepository.findById(id).orElseThrow(()
@@ -83,9 +109,10 @@ public class ProductService {
 
         product.setStatus(ProductStatus.INACTIVE);
 
-        return  productMapper.toProductResponse(productRepository.save(product));
+        return productMapper.toProductResponse(productRepository.save(product));
     }
 
+    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse deactivateProductStatus(Long id) {
         Product product = productRepository.findById(id).orElseThrow(()
@@ -93,9 +120,10 @@ public class ProductService {
 
         product.setStatus(ProductStatus.INACTIVE);
 
-        return  productMapper.toProductResponse(productRepository.save(product));
+        return productMapper.toProductResponse(productRepository.save(product));
     }
 
+    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProductById(Long productId) {
         Product product = productRepository.findById(productId)

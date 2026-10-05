@@ -15,7 +15,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartResponse {
     Long cartItemId;
+
     Long itemTotal;
+
     Long itemAmount;
+
     List<CartItemResponse> items;
 }

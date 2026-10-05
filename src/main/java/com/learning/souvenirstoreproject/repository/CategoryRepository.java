@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category,Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findAllByStatus(CategoryStatus status);
 
     boolean existsByName(@NotBlank @Size(max = 100) String name);

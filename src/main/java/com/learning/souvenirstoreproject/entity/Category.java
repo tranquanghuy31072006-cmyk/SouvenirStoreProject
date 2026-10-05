@@ -22,11 +22,12 @@ public class Category {
     @Column(unique = true, nullable = false)
     String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     Category parentCategory;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     @Builder.Default
     CategoryStatus status = CategoryStatus.ACTIVE;
 

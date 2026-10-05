@@ -1,5 +1,6 @@
 package com.learning.souvenirstoreproject.service;
 
+import com.learning.souvenirstoreproject.configuration.JwtProperties;
 import com.learning.souvenirstoreproject.dto.request.*;
 import com.learning.souvenirstoreproject.entity.InvalidatedToken;
 import com.learning.souvenirstoreproject.exception.AppException;
@@ -27,6 +28,7 @@ public class AuthenticationService {
     JwtService jwtService;
     RefreshTokenService refreshTokenService;
     InvalidatedTokenRepository invalidatedTokenRepository;
+    JwtProperties jwtProperties;
 
     @Transactional
     public TokenPair login(LoginRequest request) {
@@ -43,7 +45,7 @@ public class AuthenticationService {
         String accessToken = jwtService.generateAccessToken(userDetails);
         String refreshToken = refreshTokenService.createRefreshToken(userDetails);
 
-        return new TokenPair(accessToken, refreshToken, 900L);
+        return new TokenPair(accessToken, refreshToken, jwtProperties.getAccessTokenExpiration());
     }
 
     @Transactional
@@ -57,7 +59,7 @@ public class AuthenticationService {
         String accessToken = jwtService.generateAccessToken(userDetails);
         String newRefreshToken = refreshTokenService.createRefreshToken(userDetails);
 
-        return new TokenPair(accessToken, newRefreshToken, 900L);
+        return new TokenPair(accessToken, newRefreshToken, jwtProperties.getAccessTokenExpiration());
     }
 
     @Transactional

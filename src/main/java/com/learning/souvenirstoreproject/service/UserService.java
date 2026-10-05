@@ -170,7 +170,6 @@ public class UserService implements UserDetailsService {
 
         Role role = roleRepository.findById("CUSTOMER").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
 
-
         User user = userMapper.toUser(registerRequest);
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

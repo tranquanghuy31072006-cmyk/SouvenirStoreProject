@@ -33,4 +33,8 @@ public class ProductResponse {
     Long categoryId;
 
     String categoryName;
+
+    Long brandId;
+
+    String brandName;
 }

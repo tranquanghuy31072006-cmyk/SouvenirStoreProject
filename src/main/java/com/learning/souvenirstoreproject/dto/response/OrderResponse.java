@@ -17,12 +17,20 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderResponse {
     Long id;
+
     String orderCode;
+
     String receiverName;
+
     String receiverPhone;
+
     String receiverAddress;
+
     String note;
+
     BigDecimal totalAmount;
+
     LocalDateTime createdAt;
+
     List<OrderItemResponse> items;
 }

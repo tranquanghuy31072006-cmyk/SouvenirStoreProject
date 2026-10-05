@@ -43,14 +43,14 @@ public class UserController {
     }
 
     @GetMapping
-    ApiResponse<List<UserResponse>> getAllUsers(){
+    ApiResponse<List<UserResponse>> getAllUsers() {
         return ApiResponse.<List<UserResponse>>builder()
                 .result(userService.getAllUsers())
                 .build();
     }
 
     @DeleteMapping("/{userId}")
-    ApiResponse<String> deleteUser(@PathVariable Long userId){
+    ApiResponse<String> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return ApiResponse.<String>builder()
                 .message("User has been deleted successfully")
@@ -58,14 +58,14 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    ApiResponse<UserResponse> getCurrentUser(){
+    ApiResponse<UserResponse> getCurrentUser() {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.getMyInfo())
                 .build();
     }
 
     @PutMapping("/change-password")
-    ApiResponse<String> changePassword(@Valid @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest){
+    ApiResponse<String> changePassword(@Valid @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest) {
         userService.changePassword(userPasswordUpdateRequest);
         return ApiResponse.<String>builder()
                 .message("Password Updated")
@@ -73,14 +73,14 @@ public class UserController {
     }
 
     @PutMapping("/activate-user-status/{userId}")
-    ApiResponse<UserResponse> activateUserStatus(@PathVariable Long userId){
+    ApiResponse<UserResponse> activateUserStatus(@PathVariable Long userId) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.activateUserStatus(userId))
                 .build();
     }
 
     @PutMapping("/deactivate-user-status/{userId}")
-    ApiResponse<UserResponse> deactivateUserStatus(@PathVariable Long userId){
+    ApiResponse<UserResponse> deactivateUserStatus(@PathVariable Long userId) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.deactivateUserStatus(userId))
                 .build();

@@ -14,7 +14,7 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
     @Builder.Default
-    int code = 100;
+    int code = 1000;
 
     String message;
 

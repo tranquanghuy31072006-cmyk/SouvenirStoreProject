@@ -1,6 +1,7 @@
 package com.learning.souvenirstoreproject.entity;
 
 import com.learning.souvenirstoreproject.enums.PaymentMethod;
+import com.learning.souvenirstoreproject.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,21 +23,24 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
     Order order;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment_method", length = 50)
+    @Column(name = "payment_method", length = 50, nullable = false)
     PaymentMethod paymentMethod;
 
     @Column(name = "transaction_code", length = 255)
     String transactionCode;
 
-    @Column(name = "amount", precision = 15, scale = 2)
+    @Column(name = "amount", precision = 15, scale = 2, nullable = false)
     BigDecimal amount;
 
-    String status;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
+    @Builder.Default
+    PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
     @Column(name = "paid_at")
     LocalDateTime paidAt;

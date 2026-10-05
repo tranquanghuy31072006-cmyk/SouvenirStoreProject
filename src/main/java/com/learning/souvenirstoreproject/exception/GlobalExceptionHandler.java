@@ -4,6 +4,7 @@ import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorCode.getHttpStatus()).body(apiResponse);
     }
 
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Object>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException methodArgumentNotValidException) {
@@ -52,6 +54,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ErrorCode.VALIDATION_FAILED.getHttpStatus()).body(apiResponse);
     }
 
+
     @ExceptionHandler(value = AccessDeniedException.class)
     public ResponseEntity<ApiResponse<Object>> handleAccessDeniedException(
             AccessDeniedException accessDeniedException) {
@@ -60,11 +63,27 @@ public class GlobalExceptionHandler {
 
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .code(ErrorCode.ACCESS_DENIED.getCode())
-                .message(accessDeniedException.getMessage())
+                .message(ErrorCode.ACCESS_DENIED.getMessage())
                 .build();
 
         return ResponseEntity.status(ErrorCode.ACCESS_DENIED.getHttpStatus()).body(apiResponse);
     }
+
+
+    @ExceptionHandler(value = AuthenticationException.class)
+    public ResponseEntity<ApiResponse<Object>> handleAuthenticationException(
+            AuthenticationException authenticationException) {
+
+        log.warn("AuthenticationException: {}", authenticationException.getMessage());
+
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .code(ErrorCode.UNAUTHENTICATED.getCode())
+                .message(ErrorCode.UNAUTHENTICATED.getMessage())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.UNAUTHENTICATED.getHttpStatus()).body(apiResponse);
+    }
+
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleException(Exception exception) {

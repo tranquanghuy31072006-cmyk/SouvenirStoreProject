@@ -16,12 +16,20 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductVariantResponse {
     Long id;
+
     String sku;
+
     String size;
+
     String color;
+
     Integer stockQuantity;
+
     BigDecimal price;
+
     BigDecimal salePrice;
+
     String image;
+
     ProductStatus status;
 }

@@ -35,7 +35,7 @@ public class BrandService {
         Brand brand = brandMapper.toBrand(brandRequest);
 
         try {
-            brandRepository.save(brand);
+            brand = brandRepository.save(brand);
         } catch (DataIntegrityViolationException exception) {
             throw new AppException(ErrorCode.BRAND_ALREADY_EXISTS);
         }
@@ -67,7 +67,7 @@ public class BrandService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public BrandResponse activateBrand(Long id) {
-        Brand brand =  brandRepository.findById(id).orElseThrow(()
+        Brand brand = brandRepository.findById(id).orElseThrow(()
                 -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
         if (brand.getStatus() == BrandStatus.ACTIVE)
@@ -80,7 +80,7 @@ public class BrandService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public BrandResponse deactivateBrand(Long id) {
-        Brand brand =  brandRepository.findById(id).orElseThrow(()
+        Brand brand = brandRepository.findById(id).orElseThrow(()
                 -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
         if (brand.getStatus() == BrandStatus.INACTIVE)

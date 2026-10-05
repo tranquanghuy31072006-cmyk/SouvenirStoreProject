@@ -19,13 +19,14 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     String name;
 
     @Column(length = 500)
     String logo;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     @Builder.Default
-    BrandStatus status =  BrandStatus.ACTIVE;
+    BrandStatus status = BrandStatus.ACTIVE;
 }

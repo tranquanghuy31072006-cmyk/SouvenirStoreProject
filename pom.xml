@@ -126,7 +126,7 @@
                     </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>-Amapstruct.defaultComponentModel=spring</arg>
-                        <arg>-Amapstruct.unmappedTargetPolicy=IGNORE</arg>
+                        <arg>-Amapstruct.unmappedTargetPolicy=WARN</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>

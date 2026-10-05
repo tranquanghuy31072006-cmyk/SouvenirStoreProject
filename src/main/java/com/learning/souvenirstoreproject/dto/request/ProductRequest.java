@@ -40,5 +40,5 @@ public class ProductRequest {
     private String thumbnail;
 
     @Valid
-    private List<ProductImageRequest> images;
+    private List<ProductImageRequest> productImages;
 }

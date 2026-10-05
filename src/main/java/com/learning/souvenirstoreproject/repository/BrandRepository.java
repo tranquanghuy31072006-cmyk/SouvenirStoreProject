@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BrandRepository extends JpaRepository<Brand,Long> {
+public interface BrandRepository extends JpaRepository<Brand, Long> {
     boolean existsByName(String name);
 
     List<Brand> getBrandByStatus(BrandStatus status);
