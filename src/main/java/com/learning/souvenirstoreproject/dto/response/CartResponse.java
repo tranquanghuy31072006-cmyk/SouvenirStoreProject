@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -14,11 +15,11 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartResponse {
-    Long cartItemId;
-
-    Long itemTotal;
-
-    Long itemAmount;
+    Long id;
 
     List<CartItemResponse> items;
+
+    Integer totalItems;
+
+    BigDecimal totalPrice;
 }

@@ -14,13 +14,23 @@ import java.math.BigDecimal;
 public class CartItemResponse {
     private Long itemId;
 
+    private Long productVariantId;
+
     private Long productId;
 
     private String productName;
 
-    private String productSlug;
+    private String variantSku;
+
+    private String variantSize;
+
+    private String variantColor;
+
+    private String thumbnail;
 
     private BigDecimal price;
 
     private Integer quantity;
+
+    private BigDecimal subtotal;
 }

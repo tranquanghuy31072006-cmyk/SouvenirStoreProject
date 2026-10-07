@@ -24,7 +24,6 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(1011, HttpStatus.NOT_FOUND, "Role not found"),
 
 
-
     CATEGORY_NOT_FOUND(2001, HttpStatus.NOT_FOUND, "Category not found"),
     CATEGORY_ALREADY_EXISTS(2002, HttpStatus.CONFLICT, "Category already exists"),
     CATEGORY_HAS_PRODUCTS(2003, HttpStatus.CONFLICT, "Category has products, cannot delete"),
@@ -34,12 +33,10 @@ public enum ErrorCode {
     CATEGORY_CIRCULAR_REFERENCE(2007, HttpStatus.BAD_REQUEST, "Category cannot be its own ancestor"),
 
 
-
     BRAND_NOT_FOUND(3001, HttpStatus.NOT_FOUND, "Brand not found"),
     BRAND_ALREADY_EXISTS(3002, HttpStatus.CONFLICT, "Brand already exists"),
     BRAND_ALREADY_ACTIVE(3003, HttpStatus.CONFLICT, "Brand is already active"),
     BRAND_ALREADY_INACTIVE(3004, HttpStatus.CONFLICT, "Brand is already inactive"),
-
 
 
     PRODUCT_NOT_FOUND(4001, HttpStatus.NOT_FOUND, "Product not found"),
@@ -48,17 +45,17 @@ public enum ErrorCode {
     PRODUCT_ALREADY_ACTIVE(4004, HttpStatus.CONFLICT, "Product is already active"),
     PRODUCT_ALREADY_INACTIVE(4005, HttpStatus.CONFLICT, "Product is already inactive"),
     INVALID_PRICE(4006, HttpStatus.BAD_REQUEST, "Sale price must not exceed regular price"),
-    VARIANT_NOT_FOUND(4007, HttpStatus.NOT_FOUND, "Product variant not found"),
-    VARIANT_SKU_ALREADY_EXISTS(4008, HttpStatus.CONFLICT, "Variant SKU already exists"),
-    VARIANT_INACTIVE(4009, HttpStatus.BAD_REQUEST, "Product variant is inactive"),
-
+    PRODUCT_VARIANT_NOT_FOUND(4007, HttpStatus.NOT_FOUND, "Product variant not found"),
+    PRODUCT_VARIANT_SKU_ALREADY_EXISTS(4008, HttpStatus.CONFLICT, "Product variant SKU already exists"),
+    PRODUCT_VARIANT_INACTIVE(4009, HttpStatus.BAD_REQUEST, "Product variant is inactive"),
 
 
     CART_ITEM_NOT_FOUND(5001, HttpStatus.NOT_FOUND, "Cart item not found"),
     CART_EMPTY(5002, HttpStatus.BAD_REQUEST, "Cart is empty"),
     OUT_OF_STOCK(5003, HttpStatus.BAD_REQUEST, "Product is out of stock"),
     INSUFFICIENT_STOCK(5004, HttpStatus.BAD_REQUEST, "Insufficient stock"),
-
+    CART_NOT_FOUND(5005, HttpStatus.NOT_FOUND, "Cart not found"),
+    CART_ITEM_NOT_OWNED(5006, HttpStatus.FORBIDDEN, "Cart item does not belong to you"),
 
 
     ORDER_NOT_FOUND(6001, HttpStatus.NOT_FOUND, "Order not found"),
@@ -67,17 +64,14 @@ public enum ErrorCode {
     ORDER_ALREADY_CANCELLED(6004, HttpStatus.CONFLICT, "Order is already cancelled"),
 
 
-
     PAYMENT_NOT_FOUND(7001, HttpStatus.NOT_FOUND, "Payment not found"),
     PAYMENT_ALREADY_PAID(7002, HttpStatus.CONFLICT, "Payment has already been completed"),
     PAYMENT_FAILED(7003, HttpStatus.BAD_REQUEST, "Payment failed"),
 
 
-
     REVIEW_NOT_FOUND(8001, HttpStatus.NOT_FOUND, "Review not found"),
     REVIEW_NOT_PURCHASED(8002, HttpStatus.FORBIDDEN, "You must purchase this product before reviewing"),
     REVIEW_ALREADY_EXISTS(8003, HttpStatus.CONFLICT, "You have already reviewed this product"),
-
 
 
     UNAUTHENTICATED(9001, HttpStatus.UNAUTHORIZED, "Unauthenticated"),

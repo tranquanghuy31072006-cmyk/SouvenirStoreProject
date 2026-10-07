@@ -1,6 +1,5 @@
 package com.learning.souvenirstoreproject.service;
 
-import com.learning.souvenirstoreproject.dto.request.RegisterRequest;
 import com.learning.souvenirstoreproject.dto.request.UserPasswordUpdateRequest;
 import com.learning.souvenirstoreproject.dto.request.UserCreationRequest;
 import com.learning.souvenirstoreproject.dto.request.UserUpdateRequest;
@@ -155,29 +154,5 @@ public class UserService implements UserDetailsService {
         user.setStatus(UserStatus.BLOCKED);
 
         return userMapper.toUserResponse(userRepository.save(user));
-    }
-
-
-    public void registerUser(RegisterRequest registerRequest) {
-        if (userRepository.existsUserByUsername(registerRequest.getUsername()))
-            throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
-
-        if (userRepository.existsByEmail(registerRequest.getEmail()))
-            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
-
-        if (userRepository.existsUserByPhone(registerRequest.getPhone()))
-            throw new AppException(ErrorCode.PHONE_ALREADY_EXISTS);
-
-        Role role = roleRepository.findById("CUSTOMER").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
-
-        User user = userMapper.toUser(registerRequest);
-        user.setRole(role);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        try {
-            userRepository.save(user);
-        } catch (DataIntegrityViolationException e) {
-            throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
-        }
     }
 }
