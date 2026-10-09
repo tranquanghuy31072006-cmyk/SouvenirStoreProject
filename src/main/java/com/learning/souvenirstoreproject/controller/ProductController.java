@@ -1,3 +1,4 @@
+
 package com.learning.souvenirstoreproject.controller;
 
 import com.learning.souvenirstoreproject.dto.request.ProductRequest;
@@ -6,7 +7,6 @@ import com.learning.souvenirstoreproject.dto.response.ProductResponse;
 import com.learning.souvenirstoreproject.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
@@ -15,56 +15,64 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@Builder
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductController {
+
     ProductService productService;
 
-    @PostMapping("/create-product")
+    @PostMapping
     public ApiResponse<ProductResponse> createProduct(@Valid @RequestBody ProductRequest productRequest) {
+
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.createProduct(productRequest))
                 .build();
     }
 
-    @GetMapping("/get-product-by-id/{productId}")
+    @GetMapping("/{productId}")
     public ApiResponse<ProductResponse> getProductById(@PathVariable Long productId) {
+
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.getProductById(productId))
                 .build();
     }
 
-    @PutMapping("/update-product/{productId}")
-    public ApiResponse<ProductResponse> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductRequest productRequest) {
-        return ApiResponse.<ProductResponse>builder()
-                .result(productService.updateProduct(productId, productRequest))
-                .build();
-    }
-
-    @GetMapping("/get-all-products")
+    @GetMapping
     public ApiResponse<List<ProductResponse>> getAllProducts() {
+
         return ApiResponse.<List<ProductResponse>>builder()
                 .result(productService.getAllProducts())
                 .build();
     }
 
-    @PutMapping("/activate-product-status/{productId}")
+    @PutMapping("/{productId}")
+    public ApiResponse<ProductResponse> updateProduct(@PathVariable Long productId,
+                                                      @Valid @RequestBody ProductRequest productRequest) {
+
+        return ApiResponse.<ProductResponse>builder()
+                .result(productService.updateProduct(productId, productRequest))
+                .build();
+    }
+
+    @PutMapping("/{productId}/activate")
     public ApiResponse<ProductResponse> activateProductStatus(@PathVariable Long productId) {
+
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.activateProductStatus(productId))
                 .build();
     }
 
-    @PutMapping("/deactivate-product-status/{productId}")
+    @PutMapping("/{productId}/deactivate")
     public ApiResponse<ProductResponse> deactivateProductStatus(@PathVariable Long productId) {
+
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.deactivateProductStatus(productId))
                 .build();
     }
 
-    @DeleteMapping("/delete-product/{productId}")
+    @DeleteMapping("/{productId}")
     public ApiResponse<String> deleteProduct(@PathVariable Long productId) {
+
         productService.deleteProductById(productId);
 
         return ApiResponse.<String>builder()

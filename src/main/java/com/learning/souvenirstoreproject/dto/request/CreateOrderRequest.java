@@ -3,7 +3,6 @@ package com.learning.souvenirstoreproject.dto.request;
 import com.learning.souvenirstoreproject.enums.PaymentMethod;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -12,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderRequest {
+public class CreateOrderRequest {
 
     @NotBlank(message = "Receiver name must not be blank")
     @Size(max = 255, message = "Receiver name must not exceed 255 characters")

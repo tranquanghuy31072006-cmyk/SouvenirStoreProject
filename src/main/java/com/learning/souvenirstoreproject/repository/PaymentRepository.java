@@ -1,13 +1,12 @@
 package com.learning.souvenirstoreproject.repository;
 
-import com.learning.souvenirstoreproject.entity.Cart;
+import com.learning.souvenirstoreproject.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface CartRepository extends JpaRepository<Cart, Long> {
-
-    Optional<Cart> findByUserId(Long userId);
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
+    Optional<Payment> findByOrderId(Long orderId);
 }

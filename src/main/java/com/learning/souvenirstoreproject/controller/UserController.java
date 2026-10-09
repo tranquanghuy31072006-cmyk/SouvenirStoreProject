@@ -1,3 +1,4 @@
+
 package com.learning.souvenirstoreproject.controller;
 
 import com.learning.souvenirstoreproject.dto.request.UserPasswordUpdateRequest;
@@ -16,71 +17,84 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
+
     UserService userService;
 
-    @PostMapping("/create-user")
-    ApiResponse<UserResponse> createUser(@Valid @RequestBody UserCreationRequest userCreationRequest) {
+    @PostMapping
+    public ApiResponse<UserResponse> createUser(@Valid @RequestBody UserCreationRequest userCreationRequest) {
+
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(userCreationRequest))
                 .build();
     }
 
     @GetMapping("/{userId}")
-    ApiResponse<UserResponse> getUserById(@PathVariable Long userId) {
+    public ApiResponse<UserResponse> getUserById(@PathVariable Long userId) {
+
         return ApiResponse.<UserResponse>builder()
                 .result(userService.getUserById(userId))
                 .build();
     }
 
     @PutMapping("/{userId}")
-    ApiResponse<UserResponse> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateRequest userUpdateRequest) {
+    public ApiResponse<UserResponse> updateUser(@PathVariable Long userId,
+                                                @Valid @RequestBody UserUpdateRequest userUpdateRequest) {
+
         return ApiResponse.<UserResponse>builder()
                 .result(userService.updateUser(userId, userUpdateRequest))
                 .build();
     }
 
     @GetMapping
-    ApiResponse<List<UserResponse>> getAllUsers() {
+    public ApiResponse<List<UserResponse>> getAllUsers() {
         return ApiResponse.<List<UserResponse>>builder()
                 .result(userService.getAllUsers())
                 .build();
     }
 
     @DeleteMapping("/{userId}")
-    ApiResponse<String> deleteUser(@PathVariable Long userId) {
+    public ApiResponse<String> deleteUser(@PathVariable Long userId) {
+
         userService.deleteUser(userId);
+
         return ApiResponse.<String>builder()
                 .message("User has been deleted successfully")
                 .build();
     }
 
     @GetMapping("/me")
-    ApiResponse<UserResponse> getCurrentUser() {
+    public ApiResponse<UserResponse> getCurrentUser() {
+
         return ApiResponse.<UserResponse>builder()
                 .result(userService.getMyInfo())
                 .build();
     }
 
-    @PutMapping("/change-password")
-    ApiResponse<String> changePassword(@Valid @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest) {
+    @PatchMapping("/me/password")
+    public ApiResponse<String> changePassword(
+            @Valid @RequestBody UserPasswordUpdateRequest userPasswordUpdateRequest) {
+
         userService.changePassword(userPasswordUpdateRequest);
+
         return ApiResponse.<String>builder()
-                .message("Password Updated")
+                .message("Password updated successfully")
                 .build();
     }
 
-    @PutMapping("/activate-user-status/{userId}")
-    ApiResponse<UserResponse> activateUserStatus(@PathVariable Long userId) {
+    @PutMapping("/{userId}/activate")
+    public ApiResponse<UserResponse> activateUserStatus(@PathVariable Long userId) {
+
         return ApiResponse.<UserResponse>builder()
                 .result(userService.activateUserStatus(userId))
                 .build();
     }
 
-    @PutMapping("/deactivate-user-status/{userId}")
-    ApiResponse<UserResponse> deactivateUserStatus(@PathVariable Long userId) {
+    @PutMapping("/{userId}/deactivate")
+    public ApiResponse<UserResponse> deactivateUserStatus(@PathVariable Long userId) {
+
         return ApiResponse.<UserResponse>builder()
                 .result(userService.deactivateUserStatus(userId))
                 .build();

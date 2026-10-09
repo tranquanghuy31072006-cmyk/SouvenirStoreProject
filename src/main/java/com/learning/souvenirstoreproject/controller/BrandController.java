@@ -3,11 +3,9 @@ package com.learning.souvenirstoreproject.controller;
 import com.learning.souvenirstoreproject.dto.request.BrandRequest;
 import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.BrandResponse;
-import com.learning.souvenirstoreproject.repository.BrandRepository;
 import com.learning.souvenirstoreproject.service.BrandService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
@@ -18,54 +16,62 @@ import java.util.List;
 @RequestMapping("/brands")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Builder
 public class BrandController {
-    BrandRepository brandRepository;
+
     BrandService brandService;
 
-    @PostMapping("/add-brand")
+    @PostMapping
     ApiResponse<BrandResponse> createBrand(@Valid @RequestBody BrandRequest brandRequest) {
         return ApiResponse.<BrandResponse>builder()
                 .result(brandService.createBrand(brandRequest))
                 .build();
     }
 
-    @GetMapping("/get-brand-by-id/{brandId}")
+    @GetMapping("/{brandId}")
     ApiResponse<BrandResponse> getBrandById(@PathVariable Long brandId) {
+
         return ApiResponse.<BrandResponse>builder()
                 .result(brandService.getBrandById(brandId))
                 .build();
     }
 
-    @GetMapping("/get-active-brands")
+    @GetMapping("/active")
     ApiResponse<List<BrandResponse>> getActiveBrands() {
-        return ApiResponse.<List<BrandResponse>>builder().result(brandService.getActiveBrands()).build();
+
+        return ApiResponse.<List<BrandResponse>>builder()
+                .result(brandService.getActiveBrands())
+                .build();
     }
 
-    @PutMapping("/update-brand/{brandId}")
-    ApiResponse<BrandResponse> updateBrand(@PathVariable Long brandId, @Valid @RequestBody BrandRequest brandRequest) {
+    @PutMapping("/{brandId}")
+    ApiResponse<BrandResponse> updateBrand(@PathVariable Long brandId,
+                                           @Valid @RequestBody BrandRequest brandRequest) {
         return ApiResponse.<BrandResponse>builder()
                 .result(brandService.updateBrand(brandId, brandRequest))
                 .build();
     }
 
-    @PutMapping("/activate-brand-status/{brandId}")
+    @PutMapping("/{brandId}/activate")
     ApiResponse<BrandResponse> activateBrand(@PathVariable Long brandId) {
+
         return ApiResponse.<BrandResponse>builder()
                 .result(brandService.activateBrand(brandId))
                 .build();
     }
 
-    @PutMapping("/deactivate-brand-status/{brandId}")
+    @PutMapping("/{brandId}/deactivate")
     ApiResponse<BrandResponse> deactivateBrand(@PathVariable Long brandId) {
+
         return ApiResponse.<BrandResponse>builder()
                 .result(brandService.deactivateBrand(brandId))
                 .build();
     }
 
-    @DeleteMapping("/delete-brand/{brandId}")
+    @DeleteMapping("/{brandId}")
     ApiResponse<String> deleteBrand(@PathVariable Long brandId) {
+
         brandService.deleteBrand(brandId);
+
         return ApiResponse.<String>builder()
                 .message("Brand with id = " + brandId + " has been deleted")
                 .build();

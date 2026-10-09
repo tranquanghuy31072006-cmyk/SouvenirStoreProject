@@ -1,3 +1,4 @@
+
 package com.learning.souvenirstoreproject.controller;
 
 import com.learning.souvenirstoreproject.dto.request.AddCartItemRequest;
@@ -19,8 +20,9 @@ public class CartController {
 
     CartService cartService;
 
-    @GetMapping("/get-cart")
+    @GetMapping
     public ApiResponse<CartResponse> getCart() {
+
         return ApiResponse.<CartResponse>builder()
                 .result(cartService.getCart())
                 .build();
@@ -28,23 +30,24 @@ public class CartController {
 
     @PostMapping("/items")
     public ApiResponse<CartResponse> addItemToCart(@Valid @RequestBody AddCartItemRequest request) {
+
         return ApiResponse.<CartResponse>builder()
                 .result(cartService.addItemToCart(request))
                 .build();
     }
 
-    @PutMapping("/items/{itemId}")
+    @PatchMapping("/items/{itemId}")
     public ApiResponse<CartResponse> updateItemInCart(@PathVariable Long itemId,
                                                       @Valid @RequestBody UpdateCartItemRequest request) {
 
         return ApiResponse.<CartResponse>builder()
                 .result(cartService.updateItemQuantity(itemId, request))
                 .build();
-
     }
 
     @DeleteMapping("/items/{itemId}")
     public ApiResponse<CartResponse> deleteItemInCart(@PathVariable Long itemId) {
+
         return ApiResponse.<CartResponse>builder()
                 .result(cartService.removeItem(itemId))
                 .build();

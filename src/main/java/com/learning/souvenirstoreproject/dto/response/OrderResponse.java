@@ -1,6 +1,9 @@
 package com.learning.souvenirstoreproject.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.learning.souvenirstoreproject.enums.OrderStatus;
+import com.learning.souvenirstoreproject.enums.PaymentMethod;
+import com.learning.souvenirstoreproject.enums.PaymentStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -26,11 +29,25 @@ public class OrderResponse {
 
     String receiverAddress;
 
-    String note;
-
     BigDecimal totalAmount;
+
+    BigDecimal shippingFee;
+
+    BigDecimal discountAmount;
+
+    BigDecimal finalAmount;
+
+    PaymentStatus paymentStatus;
+
+    PaymentMethod paymentMethod;
+
+    OrderStatus orderStatus;
+
+    String note;
 
     LocalDateTime createdAt;
 
     List<OrderItemResponse> items;
+
+    PaymentResponse payment;
 }

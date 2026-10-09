@@ -1,6 +1,5 @@
 package com.learning.souvenirstoreproject.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,14 +11,23 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderItemResponse {
 
-    Long productId;
+    Long orderId;
+
+    Long productVariantId;
 
     String productName;
 
-    BigDecimal price;
+    String productImage;
+
+    String size;
+
+    String color;
 
     Integer quantity;
+
+    BigDecimal price;
+
+    BigDecimal totalPrice;
 }
