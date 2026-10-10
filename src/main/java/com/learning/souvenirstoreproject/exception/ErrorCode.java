@@ -22,6 +22,11 @@ public enum ErrorCode {
     USER_ALREADY_ACTIVE(1009, HttpStatus.CONFLICT, "User is already active"),
     USER_ALREADY_BLOCKED(1010, HttpStatus.CONFLICT, "User is already blocked"),
     ROLE_NOT_FOUND(1011, HttpStatus.NOT_FOUND, "Role not found"),
+    PERMISSION_NOT_FOUND(1012, HttpStatus.NOT_FOUND, "Permission not found"),
+    PERMISSION_ALREADY_EXISTS(1013, HttpStatus.CONFLICT, "Permission already exists"),
+    PERMISSION_IN_USE(1014, HttpStatus.CONFLICT, "Permission is assigned to roles, cannot delete"),
+    PERMISSION_ALREADY_ASSIGNED(1015, HttpStatus.CONFLICT, "Permission is already assigned to this role"),
+    PERMISSION_NOT_IN_ROLE(1016, HttpStatus.CONFLICT, "Permission is not in this role"),
 
 
     CATEGORY_NOT_FOUND(2001, HttpStatus.NOT_FOUND, "Category not found"),
@@ -44,10 +49,13 @@ public enum ErrorCode {
     PRODUCT_INACTIVE(4003, HttpStatus.BAD_REQUEST, "Product is inactive"),
     PRODUCT_ALREADY_ACTIVE(4004, HttpStatus.CONFLICT, "Product is already active"),
     PRODUCT_ALREADY_INACTIVE(4005, HttpStatus.CONFLICT, "Product is already inactive"),
-    INVALID_PRICE(4006, HttpStatus.BAD_REQUEST, "Sale price must not exceed regular price"),
+    INVALID_SALE_PRICE(4006, HttpStatus.BAD_REQUEST, "Sale price must not exceed regular price"),
     PRODUCT_VARIANT_NOT_FOUND(4007, HttpStatus.NOT_FOUND, "Product variant not found"),
     PRODUCT_VARIANT_SKU_ALREADY_EXISTS(4008, HttpStatus.CONFLICT, "Product variant SKU already exists"),
     PRODUCT_VARIANT_INACTIVE(4009, HttpStatus.BAD_REQUEST, "Product variant is inactive"),
+    PRODUCT_VARIANT_IN_USE(4010, HttpStatus.BAD_REQUEST, "Product variant cannot be deleted"),
+    PRODUCT_VARIANT_ALREADY_ACTIVE(4011, HttpStatus.CONFLICT, "Product variant is already active"),
+    PRODUCT_VARIANT_ALREADY_INACTIVE(4012, HttpStatus.CONFLICT, "Product variant is already inactive"),
 
 
     CART_ITEM_NOT_FOUND(5001, HttpStatus.NOT_FOUND, "Cart item not found"),

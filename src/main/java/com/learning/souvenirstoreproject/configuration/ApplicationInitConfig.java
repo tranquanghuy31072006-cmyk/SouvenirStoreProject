@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ApplicationInitConfig {
+
     UserRepository userRepository;
     RoleRepository roleRepository;
     PasswordEncoder passwordEncoder;
@@ -37,19 +38,15 @@ public class ApplicationInitConfig {
                     "STAFF",
                     "staff",
                     "staff@12345",
-                    "staff@12345",
+                    "staff@souvenirstore12345",
                     "Store Staff",
                     "0983868386"
             );
         };
     }
 
-    private void createDefaultUsers(String roleName,
-                                    String userName,
-                                    String password,
-                                    String email,
-                                    String fullName,
-                                    String phone) {
+    private void createDefaultUsers(String roleName, String userName, String password, String email,
+                                    String fullName, String phone) {
 
         long count = userRepository.countByRole_Name(roleName);
 
@@ -60,7 +57,9 @@ public class ApplicationInitConfig {
             return;
         }
 
-        Role role = roleRepository.findById(roleName).orElseThrow(() -> new IllegalArgumentException("Role " + roleName + " not found"));
+        Role role = roleRepository.findById(roleName)
+                .orElseThrow(() -> new IllegalArgumentException("Role " + roleName + " not found"));
+
         User user = User.builder()
                 .role(role)
                 .username(userName)

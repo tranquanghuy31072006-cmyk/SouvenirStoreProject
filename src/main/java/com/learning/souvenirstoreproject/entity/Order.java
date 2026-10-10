@@ -80,7 +80,7 @@ public class Order {
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     List<OrderItem> orderItems = new ArrayList<>();
 }

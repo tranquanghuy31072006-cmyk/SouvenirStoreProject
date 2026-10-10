@@ -1,7 +1,7 @@
 package com.learning.souvenirstoreproject.service;
 
 import com.learning.souvenirstoreproject.dto.request.AddCartItemRequest;
-import com.learning.souvenirstoreproject.dto.request.UpdateCartItemRequest;
+import com.learning.souvenirstoreproject.dto.request.CartItemUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.CartResponse;
 import com.learning.souvenirstoreproject.entity.Cart;
 import com.learning.souvenirstoreproject.entity.CartItem;
@@ -98,7 +98,7 @@ public class CartService {
     }
 
     @Transactional
-    public CartResponse updateItemQuantity(Long itemId, UpdateCartItemRequest request) {
+    public CartResponse updateItemQuantity(Long itemId, CartItemUpdateRequest request) {
 
         Cart cart = getCurrentCart();
 

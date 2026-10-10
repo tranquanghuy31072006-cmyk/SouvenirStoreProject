@@ -1,7 +1,7 @@
 
 package com.learning.souvenirstoreproject.controller;
 
-import com.learning.souvenirstoreproject.dto.request.CreateOrderRequest;
+import com.learning.souvenirstoreproject.dto.request.OrderCreationRequest;
 import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.OrderResponse;
 import com.learning.souvenirstoreproject.service.OrderService;
@@ -23,9 +23,10 @@ public class OrderController {
 
     @PostMapping
     public ApiResponse<OrderResponse> createOrder(
-            @Valid @RequestBody CreateOrderRequest createOrderRequest) {
+            @Valid @RequestBody OrderCreationRequest orderCreationRequest) {
+
         return ApiResponse.<OrderResponse>builder()
-                .result(orderService.createOrder(createOrderRequest))
+                .result(orderService.createOrder(orderCreationRequest))
                 .build();
     }
 

@@ -1,6 +1,6 @@
 package com.learning.souvenirstoreproject.service;
 
-import com.learning.souvenirstoreproject.dto.request.CreateOrderRequest;
+import com.learning.souvenirstoreproject.dto.request.OrderCreationRequest;
 import com.learning.souvenirstoreproject.dto.response.OrderResponse;
 import com.learning.souvenirstoreproject.entity.*;
 import com.learning.souvenirstoreproject.enums.OrderStatus;
@@ -39,7 +39,7 @@ public class OrderService {
     static final BigDecimal ZERO = BigDecimal.ZERO;
 
     @Transactional
-    public OrderResponse createOrder(CreateOrderRequest createOrderRequest) {
+    public OrderResponse createOrder(OrderCreationRequest orderCreationRequest) {
 
         User user = getCurrentUser();
 
@@ -52,11 +52,11 @@ public class OrderService {
         Order order = Order.builder()
                 .user(user)
                 .orderCode("ORD-" + UUID.randomUUID())
-                .receiverName(createOrderRequest.getReceiverName())
-                .receiverAddress(createOrderRequest.getReceiverAddress())
-                .receiverPhone(createOrderRequest.getReceiverPhone())
-                .note(createOrderRequest.getNote())
-                .paymentMethod(createOrderRequest.getPaymentMethod())
+                .receiverName(orderCreationRequest.getReceiverName())
+                .receiverAddress(orderCreationRequest.getReceiverAddress())
+                .receiverPhone(orderCreationRequest.getReceiverPhone())
+                .note(orderCreationRequest.getNote())
+                .paymentMethod(orderCreationRequest.getPaymentMethod())
                 .paymentStatus(PaymentStatus.PENDING)
                 .orderStatus(OrderStatus.PENDING)
                 .shippingFee(SHIPPING_FEE)
@@ -104,7 +104,7 @@ public class OrderService {
 
         Payment payment = Payment.builder()
                 .order(order)
-                .paymentMethod(createOrderRequest.getPaymentMethod())
+                .paymentMethod(orderCreationRequest.getPaymentMethod())
                 .transactionCode(UUID.randomUUID().toString())
                 .amount(order.getFinalAmount())
                 .paymentStatus(PaymentStatus.PENDING)

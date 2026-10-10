@@ -1,11 +1,12 @@
 package com.learning.souvenirstoreproject.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.learning.souvenirstoreproject.enums.ProductStatus;
+import com.learning.souvenirstoreproject.enums.ProductVariantStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -29,7 +30,15 @@ public class ProductVariantResponse {
 
     BigDecimal salePrice;
 
+    BigDecimal effectivePrice;
+
     String image;
 
-    ProductStatus status;
+    ProductVariantStatus status;
+
+    Long productId;
+
+    String productName;
+
+    LocalDateTime createdAt;
 }

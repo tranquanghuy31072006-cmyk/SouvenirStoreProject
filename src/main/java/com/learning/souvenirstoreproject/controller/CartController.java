@@ -2,7 +2,7 @@
 package com.learning.souvenirstoreproject.controller;
 
 import com.learning.souvenirstoreproject.dto.request.AddCartItemRequest;
-import com.learning.souvenirstoreproject.dto.request.UpdateCartItemRequest;
+import com.learning.souvenirstoreproject.dto.request.CartItemUpdateRequest;
 import com.learning.souvenirstoreproject.dto.response.ApiResponse;
 import com.learning.souvenirstoreproject.dto.response.CartResponse;
 import com.learning.souvenirstoreproject.service.CartService;
@@ -38,7 +38,7 @@ public class CartController {
 
     @PatchMapping("/items/{itemId}")
     public ApiResponse<CartResponse> updateItemInCart(@PathVariable Long itemId,
-                                                      @Valid @RequestBody UpdateCartItemRequest request) {
+                                                      @Valid @RequestBody CartItemUpdateRequest request) {
 
         return ApiResponse.<CartResponse>builder()
                 .result(cartService.updateItemQuantity(itemId, request))

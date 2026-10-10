@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateOrderRequest {
+public class OrderCreationRequest {
 
     @NotBlank(message = "Receiver name must not be blank")
     @Size(max = 255, message = "Receiver name must not exceed 255 characters")
